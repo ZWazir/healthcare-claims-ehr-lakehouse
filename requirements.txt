@@ -1,0 +1,13 @@
+pandas
+numpy
+faker
+scikit-learn
+matplotlib
+pyarrow
+duckdb
+snowflake-connector-python
+dbt-core
+dbt-snowflake
+torch
+streamlit
+python-dotenv

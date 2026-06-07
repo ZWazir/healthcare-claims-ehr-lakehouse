@@ -1,0 +1,30 @@
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.env
+.DS_Store
+
+# Local data files
+data/raw/synthea/*
+data/raw/synpuf/*
+data/bronze/*
+data/silver/*
+data/gold/*
+
+# Keep folder placeholders
+!data/raw/synthea/.gitkeep
+!data/raw/synpuf/.gitkeep
+!data/bronze/.gitkeep
+!data/silver/.gitkeep
+!data/gold/.gitkeep
+
+# dbt
+target/
+dbt_packages/
+logs/
+
+# Model artifacts
+*.pt
+*.pth
+*.pkl
+*.joblib
