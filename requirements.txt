@@ -11,3 +11,4 @@ dbt-snowflake
 torch
 streamlit
 python-dotenv
+tabulate
