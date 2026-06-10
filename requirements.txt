@@ -12,3 +12,4 @@ torch
 streamlit
 python-dotenv
 tabulate
+pyarrow
