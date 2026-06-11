@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: mart_patient_risk_features
+    description: "Final dbt mart table containing patient-level risk features for analytics and machine learning workflows."
+    columns:
+      - name: ehr_patient_id
+        description: "Primary EHR patient identifier."
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_gold_patient_master')
+                field: ehr_patient_id
+
+      - name: claim_beneficiary_id
+        description: "Synthetic claims beneficiary identifier."
+
+      - name: crosswalk_method
+        description: "Method used to connect EHR and claims patient records."
+        tests:
+          - not_null
+
+      - name: age
+        description: "Patient age."
+
+      - name: gender
+        description: "Patient gender."
+
+      - name: race
+        description: "Patient race."
+
+      - name: ethnicity
+        description: "Patient ethnicity."
+
+      - name: state
+        description: "Patient state."

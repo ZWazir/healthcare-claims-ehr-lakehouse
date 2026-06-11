@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: int_patient_utilization
+    description: "Intermediate patient utilization model combining patient demographics with Gold utilization metrics."
+    columns:
+      - name: ehr_patient_id
+        description: "Primary EHR patient identifier."
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_gold_patient_master')
+                field: ehr_patient_id
+
+      - name: claim_beneficiary_id
+        description: "Synthetic claims beneficiary identifier."
+
+      - name: crosswalk_method
+        description: "Method used to connect EHR and claims patient records."
+        tests:
+          - not_null
+
+  - name: int_patient_conditions
+    description: "Intermediate patient condition model combining patient demographics with Gold condition summary metrics."
+    columns:
+      - name: ehr_patient_id
+        description: "Primary EHR patient identifier."
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_gold_patient_master')
+                field: ehr_patient_id
+
+      - name: claim_beneficiary_id
+        description: "Synthetic claims beneficiary identifier."
+
+      - name: crosswalk_method
+        description: "Method used to connect EHR and claims patient records."
+        tests:
+          - not_null
