@@ -1,0 +1,1551 @@
+{
+  "generated_at": "2026-06-10T20:12:49",
+  "gold_directory": "/Users/zafarwazir/Documents/Career/Projects/healthcare_claims_ehr_lakehouse/data/gold",
+  "tables": [
+    {
+      "table_name": "gold_patient_crosswalk.parquet",
+      "file_path": "/Users/zafarwazir/Documents/Career/Projects/healthcare_claims_ehr_lakehouse/data/gold/gold_patient_crosswalk.parquet",
+      "exists": true,
+      "row_count": 3,
+      "column_count": 3,
+      "columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method"
+      ],
+      "null_profile": [
+        {
+          "column_name": "ehr_patient_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "claim_beneficiary_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "crosswalk_method",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        }
+      ],
+      "duplicate_profile": {
+        "full_row_duplicate_count": 0,
+        "key_check_performed": false,
+        "key_columns": [],
+        "key_duplicate_count": null
+      },
+      "sample_records": [
+        {
+          "ehr_patient_id": "ehr-patient-001",
+          "claim_beneficiary_id": "claim-bene-001",
+          "crosswalk_method": "synthetic_row_number_match"
+        },
+        {
+          "ehr_patient_id": "ehr-patient-002",
+          "claim_beneficiary_id": "claim-bene-002",
+          "crosswalk_method": "synthetic_row_number_match"
+        },
+        {
+          "ehr_patient_id": "ehr-patient-003",
+          "claim_beneficiary_id": "claim-bene-003",
+          "crosswalk_method": "synthetic_row_number_match"
+        }
+      ]
+    },
+    {
+      "table_name": "gold_patient_master.parquet",
+      "file_path": "/Users/zafarwazir/Documents/Career/Projects/healthcare_claims_ehr_lakehouse/data/gold/gold_patient_master.parquet",
+      "exists": true,
+      "row_count": 3,
+      "column_count": 17,
+      "columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method",
+        "age",
+        "gender",
+        "race",
+        "ethnicity",
+        "city",
+        "state",
+        "county",
+        "zip_code",
+        "sex_code",
+        "race_code",
+        "state_code",
+        "county_code",
+        "is_deceased_ehr",
+        "is_deceased_claims"
+      ],
+      "null_profile": [
+        {
+          "column_name": "ehr_patient_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "claim_beneficiary_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "crosswalk_method",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "age",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "gender",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "race",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ethnicity",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "city",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "state",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "county",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "zip_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "sex_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "race_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "state_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "county_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "is_deceased_ehr",
+          "dtype": "bool",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "is_deceased_claims",
+          "dtype": "bool",
+          "null_count": 0,
+          "null_percent": 0.0
+        }
+      ],
+      "duplicate_profile": {
+        "full_row_duplicate_count": 0,
+        "key_check_performed": false,
+        "key_columns": [],
+        "key_duplicate_count": null
+      },
+      "sample_records": [
+        {
+          "ehr_patient_id": "ehr-patient-001",
+          "claim_beneficiary_id": "claim-bene-001",
+          "crosswalk_method": "synthetic_row_number_match",
+          "age": 71,
+          "gender": "M",
+          "race": "white",
+          "ethnicity": "nonhispanic",
+          "city": "Boston",
+          "state": "Massachusetts",
+          "county": "Suffolk County",
+          "zip_code": "02108",
+          "sex_code": "1",
+          "race_code": "1",
+          "state_code": "22",
+          "county_code": "001",
+          "is_deceased_ehr": false,
+          "is_deceased_claims": false
+        },
+        {
+          "ehr_patient_id": "ehr-patient-002",
+          "claim_beneficiary_id": "claim-bene-002",
+          "crosswalk_method": "synthetic_row_number_match",
+          "age": 63,
+          "gender": "F",
+          "race": "white",
+          "ethnicity": "hispanic",
+          "city": "Springfield",
+          "state": "Massachusetts",
+          "county": "Hampden County",
+          "zip_code": "01103",
+          "sex_code": "2",
+          "race_code": "5",
+          "state_code": "22",
+          "county_code": "013",
+          "is_deceased_ehr": false,
+          "is_deceased_claims": false
+        },
+        {
+          "ehr_patient_id": "ehr-patient-003",
+          "claim_beneficiary_id": "claim-bene-003",
+          "crosswalk_method": "synthetic_row_number_match",
+          "age": 75,
+          "gender": "F",
+          "race": "black",
+          "ethnicity": "nonhispanic",
+          "city": "Worcester",
+          "state": "Massachusetts",
+          "county": "Worcester County",
+          "zip_code": "01608",
+          "sex_code": "2",
+          "race_code": "2",
+          "state_code": "22",
+          "county_code": "027",
+          "is_deceased_ehr": false,
+          "is_deceased_claims": false
+        }
+      ]
+    },
+    {
+      "table_name": "gold_condition_summary.parquet",
+      "file_path": "/Users/zafarwazir/Documents/Career/Projects/healthcare_claims_ehr_lakehouse/data/gold/gold_condition_summary.parquet",
+      "exists": true,
+      "row_count": 3,
+      "column_count": 18,
+      "columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method",
+        "ehr_condition_count",
+        "ehr_active_condition_count",
+        "ehr_unique_condition_count",
+        "has_alzheimer_or_dementia",
+        "has_chf",
+        "has_chronic_kidney_disease",
+        "has_cancer",
+        "has_copd",
+        "has_depression",
+        "has_diabetes",
+        "has_ischemic_heart_disease",
+        "has_osteoporosis",
+        "has_rheumatoid_or_osteoarthritis",
+        "has_stroke_or_tia",
+        "chronic_condition_count"
+      ],
+      "null_profile": [
+        {
+          "column_name": "ehr_patient_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "claim_beneficiary_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "crosswalk_method",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_condition_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_active_condition_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_unique_condition_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_alzheimer_or_dementia",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_chf",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_chronic_kidney_disease",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_cancer",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_copd",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_depression",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_diabetes",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_ischemic_heart_disease",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_osteoporosis",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_rheumatoid_or_osteoarthritis",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_stroke_or_tia",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "chronic_condition_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        }
+      ],
+      "duplicate_profile": {
+        "full_row_duplicate_count": 0,
+        "key_check_performed": false,
+        "key_columns": [],
+        "key_duplicate_count": null
+      },
+      "sample_records": [
+        {
+          "ehr_patient_id": "ehr-patient-001",
+          "claim_beneficiary_id": "claim-bene-001",
+          "crosswalk_method": "synthetic_row_number_match",
+          "ehr_condition_count": 1,
+          "ehr_active_condition_count": 1,
+          "ehr_unique_condition_count": 1,
+          "has_alzheimer_or_dementia": 0,
+          "has_chf": 0,
+          "has_chronic_kidney_disease": 0,
+          "has_cancer": 0,
+          "has_copd": 0,
+          "has_depression": 0,
+          "has_diabetes": 0,
+          "has_ischemic_heart_disease": 0,
+          "has_osteoporosis": 0,
+          "has_rheumatoid_or_osteoarthritis": 0,
+          "has_stroke_or_tia": 0,
+          "chronic_condition_count": 0
+        },
+        {
+          "ehr_patient_id": "ehr-patient-002",
+          "claim_beneficiary_id": "claim-bene-002",
+          "crosswalk_method": "synthetic_row_number_match",
+          "ehr_condition_count": 1,
+          "ehr_active_condition_count": 1,
+          "ehr_unique_condition_count": 1,
+          "has_alzheimer_or_dementia": 0,
+          "has_chf": 0,
+          "has_chronic_kidney_disease": 0,
+          "has_cancer": 0,
+          "has_copd": 0,
+          "has_depression": 0,
+          "has_diabetes": 1,
+          "has_ischemic_heart_disease": 0,
+          "has_osteoporosis": 0,
+          "has_rheumatoid_or_osteoarthritis": 0,
+          "has_stroke_or_tia": 0,
+          "chronic_condition_count": 1
+        },
+        {
+          "ehr_patient_id": "ehr-patient-003",
+          "claim_beneficiary_id": "claim-bene-003",
+          "crosswalk_method": "synthetic_row_number_match",
+          "ehr_condition_count": 1,
+          "ehr_active_condition_count": 1,
+          "ehr_unique_condition_count": 1,
+          "has_alzheimer_or_dementia": 0,
+          "has_chf": 1,
+          "has_chronic_kidney_disease": 1,
+          "has_cancer": 0,
+          "has_copd": 1,
+          "has_depression": 1,
+          "has_diabetes": 1,
+          "has_ischemic_heart_disease": 1,
+          "has_osteoporosis": 0,
+          "has_rheumatoid_or_osteoarthritis": 1,
+          "has_stroke_or_tia": 0,
+          "chronic_condition_count": 7
+        }
+      ]
+    },
+    {
+      "table_name": "gold_utilization_summary.parquet",
+      "file_path": "/Users/zafarwazir/Documents/Career/Projects/healthcare_claims_ehr_lakehouse/data/gold/gold_utilization_summary.parquet",
+      "exists": true,
+      "row_count": 3,
+      "column_count": 19,
+      "columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method",
+        "ehr_encounter_count",
+        "ehr_total_encounter_cost",
+        "ehr_avg_encounter_cost",
+        "ehr_emergency_encounter_count",
+        "ehr_outpatient_encounter_count",
+        "ehr_ambulatory_encounter_count",
+        "ehr_total_encounter_duration_hours",
+        "inpatient_claim_count",
+        "inpatient_total_paid",
+        "inpatient_avg_paid",
+        "inpatient_total_days",
+        "outpatient_claim_count",
+        "outpatient_total_paid",
+        "outpatient_avg_paid",
+        "total_claim_count",
+        "total_claims_paid"
+      ],
+      "null_profile": [
+        {
+          "column_name": "ehr_patient_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "claim_beneficiary_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "crosswalk_method",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_encounter_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_total_encounter_cost",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_avg_encounter_cost",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_emergency_encounter_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_outpatient_encounter_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_ambulatory_encounter_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_total_encounter_duration_hours",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "inpatient_claim_count",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "inpatient_total_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "inpatient_avg_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "inpatient_total_days",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "outpatient_claim_count",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "outpatient_total_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "outpatient_avg_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "total_claim_count",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "total_claims_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        }
+      ],
+      "duplicate_profile": {
+        "full_row_duplicate_count": 0,
+        "key_check_performed": false,
+        "key_columns": [],
+        "key_duplicate_count": null
+      },
+      "sample_records": [
+        {
+          "ehr_patient_id": "ehr-patient-001",
+          "claim_beneficiary_id": "claim-bene-001",
+          "crosswalk_method": "synthetic_row_number_match",
+          "ehr_encounter_count": 1,
+          "ehr_total_encounter_cost": 129.16,
+          "ehr_avg_encounter_cost": 129.16,
+          "ehr_emergency_encounter_count": 0,
+          "ehr_outpatient_encounter_count": 0,
+          "ehr_ambulatory_encounter_count": 1,
+          "ehr_total_encounter_duration_hours": 0.6666666666666666,
+          "inpatient_claim_count": 0.0,
+          "inpatient_total_paid": 0.0,
+          "inpatient_avg_paid": 0.0,
+          "inpatient_total_days": 0.0,
+          "outpatient_claim_count": 1.0,
+          "outpatient_total_paid": 550.0,
+          "outpatient_avg_paid": 550.0,
+          "total_claim_count": 1.0,
+          "total_claims_paid": 550.0
+        },
+        {
+          "ehr_patient_id": "ehr-patient-002",
+          "claim_beneficiary_id": "claim-bene-002",
+          "crosswalk_method": "synthetic_row_number_match",
+          "ehr_encounter_count": 1,
+          "ehr_total_encounter_cost": 415.3,
+          "ehr_avg_encounter_cost": 415.3,
+          "ehr_emergency_encounter_count": 0,
+          "ehr_outpatient_encounter_count": 1,
+          "ehr_ambulatory_encounter_count": 0,
+          "ehr_total_encounter_duration_hours": 1.0,
+          "inpatient_claim_count": 0.0,
+          "inpatient_total_paid": 0.0,
+          "inpatient_avg_paid": 0.0,
+          "inpatient_total_days": 0.0,
+          "outpatient_claim_count": 1.0,
+          "outpatient_total_paid": 900.0,
+          "outpatient_avg_paid": 900.0,
+          "total_claim_count": 1.0,
+          "total_claims_paid": 900.0
+        },
+        {
+          "ehr_patient_id": "ehr-patient-003",
+          "claim_beneficiary_id": "claim-bene-003",
+          "crosswalk_method": "synthetic_row_number_match",
+          "ehr_encounter_count": 1,
+          "ehr_total_encounter_cost": 2750.0,
+          "ehr_avg_encounter_cost": 2750.0,
+          "ehr_emergency_encounter_count": 1,
+          "ehr_outpatient_encounter_count": 0,
+          "ehr_ambulatory_encounter_count": 0,
+          "ehr_total_encounter_duration_hours": 6.5,
+          "inpatient_claim_count": 1.0,
+          "inpatient_total_paid": 8500.0,
+          "inpatient_avg_paid": 8500.0,
+          "inpatient_total_days": 3.0,
+          "outpatient_claim_count": 0.0,
+          "outpatient_total_paid": 0.0,
+          "outpatient_avg_paid": 0.0,
+          "total_claim_count": 1.0,
+          "total_claims_paid": 8500.0
+        }
+      ]
+    },
+    {
+      "table_name": "gold_medication_summary.parquet",
+      "file_path": "/Users/zafarwazir/Documents/Career/Projects/healthcare_claims_ehr_lakehouse/data/gold/gold_medication_summary.parquet",
+      "exists": true,
+      "row_count": 3,
+      "column_count": 9,
+      "columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method",
+        "medication_count",
+        "active_medication_count",
+        "unique_medication_count",
+        "total_medication_cost",
+        "avg_medication_cost",
+        "total_dispenses"
+      ],
+      "null_profile": [
+        {
+          "column_name": "ehr_patient_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "claim_beneficiary_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "crosswalk_method",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "medication_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "active_medication_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "unique_medication_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "total_medication_cost",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "avg_medication_cost",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "total_dispenses",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        }
+      ],
+      "duplicate_profile": {
+        "full_row_duplicate_count": 0,
+        "key_check_performed": false,
+        "key_columns": [],
+        "key_duplicate_count": null
+      },
+      "sample_records": [
+        {
+          "ehr_patient_id": "ehr-patient-001",
+          "claim_beneficiary_id": "claim-bene-001",
+          "crosswalk_method": "synthetic_row_number_match",
+          "medication_count": 1,
+          "active_medication_count": 1,
+          "unique_medication_count": 1,
+          "total_medication_cost": 150.0,
+          "avg_medication_cost": 150.0,
+          "total_dispenses": 12
+        },
+        {
+          "ehr_patient_id": "ehr-patient-002",
+          "claim_beneficiary_id": "claim-bene-002",
+          "crosswalk_method": "synthetic_row_number_match",
+          "medication_count": 1,
+          "active_medication_count": 1,
+          "unique_medication_count": 1,
+          "total_medication_cost": 111.0,
+          "avg_medication_cost": 111.0,
+          "total_dispenses": 12
+        },
+        {
+          "ehr_patient_id": "ehr-patient-003",
+          "claim_beneficiary_id": "claim-bene-003",
+          "crosswalk_method": "synthetic_row_number_match",
+          "medication_count": 1,
+          "active_medication_count": 1,
+          "unique_medication_count": 1,
+          "total_medication_cost": 136.8,
+          "avg_medication_cost": 136.8,
+          "total_dispenses": 12
+        }
+      ]
+    },
+    {
+      "table_name": "gold_observation_summary.parquet",
+      "file_path": "/Users/zafarwazir/Documents/Career/Projects/healthcare_claims_ehr_lakehouse/data/gold/gold_observation_summary.parquet",
+      "exists": true,
+      "row_count": 3,
+      "column_count": 7,
+      "columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method",
+        "observation_count",
+        "unique_observation_count",
+        "avg_observation_value",
+        "max_observation_value"
+      ],
+      "null_profile": [
+        {
+          "column_name": "ehr_patient_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "claim_beneficiary_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "crosswalk_method",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "observation_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "unique_observation_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "avg_observation_value",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "max_observation_value",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        }
+      ],
+      "duplicate_profile": {
+        "full_row_duplicate_count": 0,
+        "key_check_performed": false,
+        "key_columns": [],
+        "key_duplicate_count": null
+      },
+      "sample_records": [
+        {
+          "ehr_patient_id": "ehr-patient-001",
+          "claim_beneficiary_id": "claim-bene-001",
+          "crosswalk_method": "synthetic_row_number_match",
+          "observation_count": 1,
+          "unique_observation_count": 1,
+          "avg_observation_value": 145.0,
+          "max_observation_value": 145.0
+        },
+        {
+          "ehr_patient_id": "ehr-patient-002",
+          "claim_beneficiary_id": "claim-bene-002",
+          "crosswalk_method": "synthetic_row_number_match",
+          "observation_count": 1,
+          "unique_observation_count": 1,
+          "avg_observation_value": 8.1,
+          "max_observation_value": 8.1
+        },
+        {
+          "ehr_patient_id": "ehr-patient-003",
+          "claim_beneficiary_id": "claim-bene-003",
+          "crosswalk_method": "synthetic_row_number_match",
+          "observation_count": 1,
+          "unique_observation_count": 1,
+          "avg_observation_value": 950.0,
+          "max_observation_value": 950.0
+        }
+      ]
+    },
+    {
+      "table_name": "gold_patient_risk_features.parquet",
+      "file_path": "/Users/zafarwazir/Documents/Career/Projects/healthcare_claims_ehr_lakehouse/data/gold/gold_patient_risk_features.parquet",
+      "exists": true,
+      "row_count": 3,
+      "column_count": 64,
+      "columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method",
+        "age",
+        "gender",
+        "race",
+        "ethnicity",
+        "city",
+        "state",
+        "county",
+        "zip_code",
+        "sex_code",
+        "race_code",
+        "state_code",
+        "county_code",
+        "is_deceased_ehr",
+        "is_deceased_claims",
+        "ehr_condition_count",
+        "ehr_active_condition_count",
+        "ehr_unique_condition_count",
+        "has_alzheimer_or_dementia",
+        "has_chf",
+        "has_chronic_kidney_disease",
+        "has_cancer",
+        "has_copd",
+        "has_depression",
+        "has_diabetes",
+        "has_ischemic_heart_disease",
+        "has_osteoporosis",
+        "has_rheumatoid_or_osteoarthritis",
+        "has_stroke_or_tia",
+        "chronic_condition_count",
+        "ehr_encounter_count",
+        "ehr_total_encounter_cost",
+        "ehr_avg_encounter_cost",
+        "ehr_emergency_encounter_count",
+        "ehr_outpatient_encounter_count",
+        "ehr_ambulatory_encounter_count",
+        "ehr_total_encounter_duration_hours",
+        "inpatient_claim_count",
+        "inpatient_total_paid",
+        "inpatient_avg_paid",
+        "inpatient_total_days",
+        "outpatient_claim_count",
+        "outpatient_total_paid",
+        "outpatient_avg_paid",
+        "total_claim_count",
+        "total_claims_paid",
+        "medication_count",
+        "active_medication_count",
+        "unique_medication_count",
+        "total_medication_cost",
+        "avg_medication_cost",
+        "total_dispenses",
+        "observation_count",
+        "unique_observation_count",
+        "avg_observation_value",
+        "max_observation_value",
+        "inpatient_reimbursement_amount",
+        "outpatient_reimbursement_amount",
+        "carrier_reimbursement_amount",
+        "total_annual_reimbursement_amount",
+        "high_cost_patient_flag",
+        "care_management_candidate_flag"
+      ],
+      "null_profile": [
+        {
+          "column_name": "ehr_patient_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "claim_beneficiary_id",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "crosswalk_method",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "age",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "gender",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "race",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ethnicity",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "city",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "state",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "county",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "zip_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "sex_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "race_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "state_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "county_code",
+          "dtype": "str",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "is_deceased_ehr",
+          "dtype": "bool",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "is_deceased_claims",
+          "dtype": "bool",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_condition_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_active_condition_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_unique_condition_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_alzheimer_or_dementia",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_chf",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_chronic_kidney_disease",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_cancer",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_copd",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_depression",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_diabetes",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_ischemic_heart_disease",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_osteoporosis",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_rheumatoid_or_osteoarthritis",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "has_stroke_or_tia",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "chronic_condition_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_encounter_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_total_encounter_cost",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_avg_encounter_cost",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_emergency_encounter_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_outpatient_encounter_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_ambulatory_encounter_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "ehr_total_encounter_duration_hours",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "inpatient_claim_count",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "inpatient_total_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "inpatient_avg_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "inpatient_total_days",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "outpatient_claim_count",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "outpatient_total_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "outpatient_avg_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "total_claim_count",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "total_claims_paid",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "medication_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "active_medication_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "unique_medication_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "total_medication_cost",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "avg_medication_cost",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "total_dispenses",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "observation_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "unique_observation_count",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "avg_observation_value",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "max_observation_value",
+          "dtype": "float64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "inpatient_reimbursement_amount",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "outpatient_reimbursement_amount",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "carrier_reimbursement_amount",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "total_annual_reimbursement_amount",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "high_cost_patient_flag",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        },
+        {
+          "column_name": "care_management_candidate_flag",
+          "dtype": "int64",
+          "null_count": 0,
+          "null_percent": 0.0
+        }
+      ],
+      "duplicate_profile": {
+        "full_row_duplicate_count": 0,
+        "key_check_performed": false,
+        "key_columns": [],
+        "key_duplicate_count": null
+      },
+      "sample_records": [
+        {
+          "ehr_patient_id": "ehr-patient-001",
+          "claim_beneficiary_id": "claim-bene-001",
+          "crosswalk_method": "synthetic_row_number_match",
+          "age": 71,
+          "gender": "M",
+          "race": "white",
+          "ethnicity": "nonhispanic",
+          "city": "Boston",
+          "state": "Massachusetts",
+          "county": "Suffolk County",
+          "zip_code": "02108",
+          "sex_code": "1",
+          "race_code": "1",
+          "state_code": "22",
+          "county_code": "001",
+          "is_deceased_ehr": false,
+          "is_deceased_claims": false,
+          "ehr_condition_count": 1,
+          "ehr_active_condition_count": 1,
+          "ehr_unique_condition_count": 1,
+          "has_alzheimer_or_dementia": 0,
+          "has_chf": 0,
+          "has_chronic_kidney_disease": 0,
+          "has_cancer": 0,
+          "has_copd": 0,
+          "has_depression": 0,
+          "has_diabetes": 0,
+          "has_ischemic_heart_disease": 0,
+          "has_osteoporosis": 0,
+          "has_rheumatoid_or_osteoarthritis": 0,
+          "has_stroke_or_tia": 0,
+          "chronic_condition_count": 0,
+          "ehr_encounter_count": 1,
+          "ehr_total_encounter_cost": 129.16,
+          "ehr_avg_encounter_cost": 129.16,
+          "ehr_emergency_encounter_count": 0,
+          "ehr_outpatient_encounter_count": 0,
+          "ehr_ambulatory_encounter_count": 1,
+          "ehr_total_encounter_duration_hours": 0.6666666666666666,
+          "inpatient_claim_count": 0.0,
+          "inpatient_total_paid": 0.0,
+          "inpatient_avg_paid": 0.0,
+          "inpatient_total_days": 0.0,
+          "outpatient_claim_count": 1.0,
+          "outpatient_total_paid": 550.0,
+          "outpatient_avg_paid": 550.0,
+          "total_claim_count": 1.0,
+          "total_claims_paid": 550.0,
+          "medication_count": 1,
+          "active_medication_count": 1,
+          "unique_medication_count": 1,
+          "total_medication_cost": 150.0,
+          "avg_medication_cost": 150.0,
+          "total_dispenses": 12,
+          "observation_count": 1,
+          "unique_observation_count": 1,
+          "avg_observation_value": 145.0,
+          "max_observation_value": 145.0,
+          "inpatient_reimbursement_amount": 0,
+          "outpatient_reimbursement_amount": 550,
+          "carrier_reimbursement_amount": 320,
+          "total_annual_reimbursement_amount": 870,
+          "high_cost_patient_flag": 0,
+          "care_management_candidate_flag": 0
+        },
+        {
+          "ehr_patient_id": "ehr-patient-002",
+          "claim_beneficiary_id": "claim-bene-002",
+          "crosswalk_method": "synthetic_row_number_match",
+          "age": 63,
+          "gender": "F",
+          "race": "white",
+          "ethnicity": "hispanic",
+          "city": "Springfield",
+          "state": "Massachusetts",
+          "county": "Hampden County",
+          "zip_code": "01103",
+          "sex_code": "2",
+          "race_code": "5",
+          "state_code": "22",
+          "county_code": "013",
+          "is_deceased_ehr": false,
+          "is_deceased_claims": false,
+          "ehr_condition_count": 1,
+          "ehr_active_condition_count": 1,
+          "ehr_unique_condition_count": 1,
+          "has_alzheimer_or_dementia": 0,
+          "has_chf": 0,
+          "has_chronic_kidney_disease": 0,
+          "has_cancer": 0,
+          "has_copd": 0,
+          "has_depression": 0,
+          "has_diabetes": 1,
+          "has_ischemic_heart_disease": 0,
+          "has_osteoporosis": 0,
+          "has_rheumatoid_or_osteoarthritis": 0,
+          "has_stroke_or_tia": 0,
+          "chronic_condition_count": 1,
+          "ehr_encounter_count": 1,
+          "ehr_total_encounter_cost": 415.3,
+          "ehr_avg_encounter_cost": 415.3,
+          "ehr_emergency_encounter_count": 0,
+          "ehr_outpatient_encounter_count": 1,
+          "ehr_ambulatory_encounter_count": 0,
+          "ehr_total_encounter_duration_hours": 1.0,
+          "inpatient_claim_count": 0.0,
+          "inpatient_total_paid": 0.0,
+          "inpatient_avg_paid": 0.0,
+          "inpatient_total_days": 0.0,
+          "outpatient_claim_count": 1.0,
+          "outpatient_total_paid": 900.0,
+          "outpatient_avg_paid": 900.0,
+          "total_claim_count": 1.0,
+          "total_claims_paid": 900.0,
+          "medication_count": 1,
+          "active_medication_count": 1,
+          "unique_medication_count": 1,
+          "total_medication_cost": 111.0,
+          "avg_medication_cost": 111.0,
+          "total_dispenses": 12,
+          "observation_count": 1,
+          "unique_observation_count": 1,
+          "avg_observation_value": 8.1,
+          "max_observation_value": 8.1,
+          "inpatient_reimbursement_amount": 0,
+          "outpatient_reimbursement_amount": 900,
+          "carrier_reimbursement_amount": 480,
+          "total_annual_reimbursement_amount": 1380,
+          "high_cost_patient_flag": 0,
+          "care_management_candidate_flag": 0
+        },
+        {
+          "ehr_patient_id": "ehr-patient-003",
+          "claim_beneficiary_id": "claim-bene-003",
+          "crosswalk_method": "synthetic_row_number_match",
+          "age": 75,
+          "gender": "F",
+          "race": "black",
+          "ethnicity": "nonhispanic",
+          "city": "Worcester",
+          "state": "Massachusetts",
+          "county": "Worcester County",
+          "zip_code": "01608",
+          "sex_code": "2",
+          "race_code": "2",
+          "state_code": "22",
+          "county_code": "027",
+          "is_deceased_ehr": false,
+          "is_deceased_claims": false,
+          "ehr_condition_count": 1,
+          "ehr_active_condition_count": 1,
+          "ehr_unique_condition_count": 1,
+          "has_alzheimer_or_dementia": 0,
+          "has_chf": 1,
+          "has_chronic_kidney_disease": 1,
+          "has_cancer": 0,
+          "has_copd": 1,
+          "has_depression": 1,
+          "has_diabetes": 1,
+          "has_ischemic_heart_disease": 1,
+          "has_osteoporosis": 0,
+          "has_rheumatoid_or_osteoarthritis": 1,
+          "has_stroke_or_tia": 0,
+          "chronic_condition_count": 7,
+          "ehr_encounter_count": 1,
+          "ehr_total_encounter_cost": 2750.0,
+          "ehr_avg_encounter_cost": 2750.0,
+          "ehr_emergency_encounter_count": 1,
+          "ehr_outpatient_encounter_count": 0,
+          "ehr_ambulatory_encounter_count": 0,
+          "ehr_total_encounter_duration_hours": 6.5,
+          "inpatient_claim_count": 1.0,
+          "inpatient_total_paid": 8500.0,
+          "inpatient_avg_paid": 8500.0,
+          "inpatient_total_days": 3.0,
+          "outpatient_claim_count": 0.0,
+          "outpatient_total_paid": 0.0,
+          "outpatient_avg_paid": 0.0,
+          "total_claim_count": 1.0,
+          "total_claims_paid": 8500.0,
+          "medication_count": 1,
+          "active_medication_count": 1,
+          "unique_medication_count": 1,
+          "total_medication_cost": 136.8,
+          "avg_medication_cost": 136.8,
+          "total_dispenses": 12,
+          "observation_count": 1,
+          "unique_observation_count": 1,
+          "avg_observation_value": 950.0,
+          "max_observation_value": 950.0,
+          "inpatient_reimbursement_amount": 8500,
+          "outpatient_reimbursement_amount": 2400,
+          "carrier_reimbursement_amount": 1800,
+          "total_annual_reimbursement_amount": 12700,
+          "high_cost_patient_flag": 1,
+          "care_management_candidate_flag": 1
+        }
+      ]
+    }
+  ]
+}
