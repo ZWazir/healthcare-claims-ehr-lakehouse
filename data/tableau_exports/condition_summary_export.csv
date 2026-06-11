@@ -1,0 +1,4 @@
+ehr_patient_id,claim_beneficiary_id,crosswalk_method,ehr_condition_count,ehr_active_condition_count,ehr_unique_condition_count,has_alzheimer_or_dementia,has_chf,has_chronic_kidney_disease,has_cancer,has_copd,has_depression,has_diabetes,has_ischemic_heart_disease,has_osteoporosis,has_rheumatoid_or_osteoarthritis,has_stroke_or_tia,chronic_condition_count
+ehr-patient-001,claim-bene-001,synthetic_row_number_match,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0
+ehr-patient-002,claim-bene-002,synthetic_row_number_match,1,1,1,0,0,0,0,0,0,1,0,0,0,0,1
+ehr-patient-003,claim-bene-003,synthetic_row_number_match,1,1,1,0,1,1,0,1,1,1,1,0,1,0,7

@@ -1,0 +1,4 @@
+ehr_patient_id,claim_beneficiary_id,crosswalk_method,age,gender,race,ethnicity,city,state,county,zip_code,sex_code,race_code,state_code,county_code,is_deceased_ehr,is_deceased_claims
+ehr-patient-001,claim-bene-001,synthetic_row_number_match,71,M,white,nonhispanic,Boston,Massachusetts,Suffolk County,02108,1,1,22,001,False,False
+ehr-patient-002,claim-bene-002,synthetic_row_number_match,63,F,white,hispanic,Springfield,Massachusetts,Hampden County,01103,2,5,22,013,False,False
+ehr-patient-003,claim-bene-003,synthetic_row_number_match,75,F,black,nonhispanic,Worcester,Massachusetts,Worcester County,01608,2,2,22,027,False,False

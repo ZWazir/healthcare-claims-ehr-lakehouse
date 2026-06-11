@@ -1,0 +1,47 @@
+{
+  "export_timestamp": "2026-06-10T20:36:06",
+  "source_layer": "Gold",
+  "export_layer": "Tableau CSV extracts",
+  "exports": [
+    {
+      "description": "Patient-level demographic and master record extract for Tableau.",
+      "source_file": "data/gold/gold_patient_master.parquet",
+      "export_file": "data/tableau_exports/patient_master_export.csv",
+      "row_count": 3,
+      "column_count": 17,
+      "missing_preferred_key_columns": [],
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "description": "Patient utilization summary extract for Tableau analysis.",
+      "source_file": "data/gold/gold_utilization_summary.parquet",
+      "export_file": "data/tableau_exports/utilization_summary_export.csv",
+      "row_count": 3,
+      "column_count": 19,
+      "missing_preferred_key_columns": [],
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "description": "Patient condition summary extract for Tableau analysis.",
+      "source_file": "data/gold/gold_condition_summary.parquet",
+      "export_file": "data/tableau_exports/condition_summary_export.csv",
+      "row_count": 3,
+      "column_count": 18,
+      "missing_preferred_key_columns": [],
+      "status": "passed",
+      "warnings": []
+    },
+    {
+      "description": "Patient-level risk feature extract for dashboarding and downstream ML.",
+      "source_file": "data/gold/gold_patient_risk_features.parquet",
+      "export_file": "data/tableau_exports/patient_risk_features_export.csv",
+      "row_count": 3,
+      "column_count": 64,
+      "missing_preferred_key_columns": [],
+      "status": "passed",
+      "warnings": []
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+ehr_patient_id,claim_beneficiary_id,crosswalk_method,ehr_encounter_count,ehr_total_encounter_cost,ehr_avg_encounter_cost,ehr_emergency_encounter_count,ehr_outpatient_encounter_count,ehr_ambulatory_encounter_count,ehr_total_encounter_duration_hours,inpatient_claim_count,inpatient_total_paid,inpatient_avg_paid,inpatient_total_days,outpatient_claim_count,outpatient_total_paid,outpatient_avg_paid,total_claim_count,total_claims_paid
+ehr-patient-001,claim-bene-001,synthetic_row_number_match,1,129.16,129.16,0,0,1,0.6666666666666666,0.0,0.0,0.0,0.0,1.0,550.0,550.0,1.0,550.0
+ehr-patient-002,claim-bene-002,synthetic_row_number_match,1,415.3,415.3,0,1,0,1.0,0.0,0.0,0.0,0.0,1.0,900.0,900.0,1.0,900.0
+ehr-patient-003,claim-bene-003,synthetic_row_number_match,1,2750.0,2750.0,1,0,0,6.5,1.0,8500.0,8500.0,3.0,0.0,0.0,0.0,1.0,8500.0
