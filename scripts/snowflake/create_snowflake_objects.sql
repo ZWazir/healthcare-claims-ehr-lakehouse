@@ -120,13 +120,13 @@ create table if not exists GOLD_CONDITION_SUMMARY (
     crosswalk_method string,
     condition_count integer,
     chronic_condition_count integer,
-    has_diabetes boolean,
-    has_hypertension boolean,
-    has_copd boolean,
-    has_chf boolean,
-    has_ckd boolean,
-    has_cancer boolean,
-    has_depression boolean
+    has_diabetes number(1,0),
+    has_hypertension number(1,0),
+    has_copd number(1,0),
+    has_chf number(1,0),
+    has_ckd number(1,0),
+    has_cancer number(1,0),
+    has_depression number(1,0)
 )
 comment = 'Gold patient-level condition summary table.';
 
@@ -186,13 +186,13 @@ create table if not exists GOLD_PATIENT_RISK_FEATURES (
     avg_paid_amount_per_claim float,
     condition_count integer,
     chronic_condition_count integer,
-    has_diabetes boolean,
-    has_hypertension boolean,
-    has_copd boolean,
-    has_chf boolean,
-    has_ckd boolean,
-    has_cancer boolean,
-    has_depression boolean,
+    has_diabetes number(1,0),
+    has_hypertension number(1,0),
+    has_copd number(1,0),
+    has_chf number(1,0),
+    has_ckd number(1,0),
+    has_cancer number(1,0),
+    has_depression number(1,0),
     medication_count integer,
     unique_medication_count integer,
     observation_count integer,
@@ -201,7 +201,7 @@ create table if not exists GOLD_PATIENT_RISK_FEATURES (
     avg_bmi float,
     avg_glucose float,
     patient_risk_score float,
-    high_risk_flag boolean
+    high_risk_flag number(1,0)
 )
 comment = 'Gold patient-level feature table used for analytics, BI, and ML workflows.';
 

@@ -1,0 +1,100 @@
+{
+  "generated_at_utc": "2026-06-11T23:48:44.786666+00:00",
+  "snowflake_database": "HEALTHCARE_LAKEHOUSE_DB",
+  "snowflake_schema": "GOLD",
+  "snowflake_warehouse": "HEALTHCARE_LAKEHOUSE_WH",
+  "source_gold_directory": "data/gold",
+  "overall_status": "pass",
+  "validation_results": [
+    {
+      "local_file": "gold_patient_master.parquet",
+      "snowflake_table": "GOLD_PATIENT_MASTER",
+      "local_row_count": 3,
+      "snowflake_row_count": 3,
+      "row_count_matches": true,
+      "required_columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method"
+      ],
+      "missing_required_columns": [],
+      "null_ehr_patient_id_count": 0,
+      "validation_status": "pass"
+    },
+    {
+      "local_file": "gold_utilization_summary.parquet",
+      "snowflake_table": "GOLD_UTILIZATION_SUMMARY",
+      "local_row_count": 3,
+      "snowflake_row_count": 3,
+      "row_count_matches": true,
+      "required_columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method"
+      ],
+      "missing_required_columns": [],
+      "null_ehr_patient_id_count": 0,
+      "validation_status": "pass"
+    },
+    {
+      "local_file": "gold_condition_summary.parquet",
+      "snowflake_table": "GOLD_CONDITION_SUMMARY",
+      "local_row_count": 3,
+      "snowflake_row_count": 3,
+      "row_count_matches": true,
+      "required_columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method"
+      ],
+      "missing_required_columns": [],
+      "null_ehr_patient_id_count": 0,
+      "validation_status": "pass"
+    },
+    {
+      "local_file": "gold_medication_summary.parquet",
+      "snowflake_table": "GOLD_MEDICATION_SUMMARY",
+      "local_row_count": 3,
+      "snowflake_row_count": 3,
+      "row_count_matches": true,
+      "required_columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method"
+      ],
+      "missing_required_columns": [],
+      "null_ehr_patient_id_count": 0,
+      "validation_status": "pass"
+    },
+    {
+      "local_file": "gold_observation_summary.parquet",
+      "snowflake_table": "GOLD_OBSERVATION_SUMMARY",
+      "local_row_count": 3,
+      "snowflake_row_count": 3,
+      "row_count_matches": true,
+      "required_columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method"
+      ],
+      "missing_required_columns": [],
+      "null_ehr_patient_id_count": 0,
+      "validation_status": "pass"
+    },
+    {
+      "local_file": "gold_patient_risk_features.parquet",
+      "snowflake_table": "GOLD_PATIENT_RISK_FEATURES",
+      "local_row_count": 3,
+      "snowflake_row_count": 3,
+      "row_count_matches": true,
+      "required_columns": [
+        "ehr_patient_id",
+        "claim_beneficiary_id",
+        "crosswalk_method"
+      ],
+      "missing_required_columns": [],
+      "null_ehr_patient_id_count": 0,
+      "validation_status": "pass"
+    }
+  ]
+}

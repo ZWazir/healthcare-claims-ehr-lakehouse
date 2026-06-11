@@ -1,0 +1,47 @@
+{
+  "generated_at_utc": "2026-06-11T23:47:56.353520+00:00",
+  "snowflake_database": "HEALTHCARE_LAKEHOUSE_DB",
+  "snowflake_schema": "GOLD",
+  "snowflake_warehouse": "HEALTHCARE_LAKEHOUSE_WH",
+  "snowflake_stage": "GOLD_PARQUET_STAGE",
+  "source_gold_directory": "data/gold",
+  "load_results": [
+    {
+      "local_file": "gold_patient_master.parquet",
+      "snowflake_table": "GOLD_PATIENT_MASTER",
+      "loaded_row_count": 3,
+      "status": "loaded"
+    },
+    {
+      "local_file": "gold_utilization_summary.parquet",
+      "snowflake_table": "GOLD_UTILIZATION_SUMMARY",
+      "loaded_row_count": 3,
+      "status": "loaded"
+    },
+    {
+      "local_file": "gold_condition_summary.parquet",
+      "snowflake_table": "GOLD_CONDITION_SUMMARY",
+      "loaded_row_count": 3,
+      "status": "loaded"
+    },
+    {
+      "local_file": "gold_medication_summary.parquet",
+      "snowflake_table": "GOLD_MEDICATION_SUMMARY",
+      "loaded_row_count": 3,
+      "status": "loaded"
+    },
+    {
+      "local_file": "gold_observation_summary.parquet",
+      "snowflake_table": "GOLD_OBSERVATION_SUMMARY",
+      "loaded_row_count": 3,
+      "status": "loaded"
+    },
+    {
+      "local_file": "gold_patient_risk_features.parquet",
+      "snowflake_table": "GOLD_PATIENT_RISK_FEATURES",
+      "loaded_row_count": 3,
+      "status": "loaded"
+    }
+  ],
+  "status": "success"
+}
