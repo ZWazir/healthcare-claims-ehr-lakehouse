@@ -28,3 +28,8 @@ logs/
 *.pth
 *.pkl
 *.joblib
+
+# dbt artifacts
+data/dbt/
+dbt/healthcare_claims/target/
+dbt/healthcare_claims/dbt_packages/

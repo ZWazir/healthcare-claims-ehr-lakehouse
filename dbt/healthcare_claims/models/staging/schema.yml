@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: stg_gold_patient_master
+    description: "Staging view over the Gold patient master table."
+    columns:
+      - name: ehr_patient_id
+        description: "Primary EHR patient identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: claim_beneficiary_id
+        description: "Synthetic claims beneficiary identifier."
+
+      - name: crosswalk_method
+        description: "Method used to connect EHR and claims patient records."
+        tests:
+          - not_null
+
+  - name: stg_gold_utilization_summary
+    description: "Staging view over Gold patient-level utilization metrics."
+    columns:
+      - name: ehr_patient_id
+        description: "Primary EHR patient identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: claim_beneficiary_id
+        description: "Synthetic claims beneficiary identifier."
+
+      - name: crosswalk_method
+        description: "Method used to connect EHR and claims patient records."
+        tests:
+          - not_null
+
+  - name: stg_gold_condition_summary
+    description: "Staging view over Gold patient-level condition summary metrics."
+    columns:
+      - name: ehr_patient_id
+        description: "Primary EHR patient identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: claim_beneficiary_id
+        description: "Synthetic claims beneficiary identifier."
+
+      - name: crosswalk_method
+        description: "Method used to connect EHR and claims patient records."
+        tests:
+          - not_null
+
+  - name: stg_gold_patient_risk_features
+    description: "Staging view over the Gold patient risk feature table used for ML."
+    columns:
+      - name: ehr_patient_id
+        description: "Primary EHR patient identifier."
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_gold_patient_master')
+                field: ehr_patient_id
+
+      - name: claim_beneficiary_id
+        description: "Synthetic claims beneficiary identifier."
+
+      - name: crosswalk_method
+        description: "Method used to connect EHR and claims patient records."
+        tests:
+          - not_null

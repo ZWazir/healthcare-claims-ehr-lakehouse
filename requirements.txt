@@ -7,6 +7,7 @@ pyarrow
 duckdb
 snowflake-connector-python
 dbt-core
+dbt-duckdb
 dbt-snowflake
 torch
 streamlit
