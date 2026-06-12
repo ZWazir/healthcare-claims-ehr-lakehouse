@@ -2,522 +2,778 @@
 
 ## Overview
 
-This project builds an end-to-end healthcare analytics lakehouse that combines synthetic EHR/FHIR-style data with synthetic Medicare claims-style data.
+This project is an end-to-end healthcare data lakehouse portfolio project that combines synthetic EHR/FHIR-style data with synthetic Medicare claims-style data.
 
-The project currently includes a working local medallion pipeline built with Python, pandas, and Parquet. The local pipeline generates sample raw healthcare data, inspects source files, builds Bronze, Silver, and Gold layers, validates each layer, and profiles the final Gold analytics outputs.
+The goal is to demonstrate a modern analytics engineering and machine learning workflow across the full data lifecycle:
 
-The long-term goal is to extend this local lakehouse into a cloud-oriented healthcare data platform using Databricks Delta Lake, Snowflake, dbt, PyTorch, Streamlit, and Tableau.
+- Raw healthcare data ingestion
+- Bronze, Silver, and Gold medallion architecture
+- Data validation and profiling
+- BI-ready exports
+- Streamlit dashboarding
+- Tableau-ready CSV extracts
+- PyTorch-ready feature engineering
+- Baseline PyTorch patient risk modeling
+- dbt staging, intermediate, and mart models
+- Snowflake loading and validation
+- Databricks Delta Lake migration artifacts
 
----
+The project is designed to be recruiter-facing and demonstrates practical skills in healthcare analytics, data engineering, analytics engineering, business intelligence, and machine learning.
 
 ## Business Problem
 
-Healthcare organizations need to combine clinical EHR data and claims data to better understand patient risk, utilization, cost, and care patterns.
+Healthcare organizations often need to combine clinical EHR data with claims data to understand patient risk, utilization, chronic conditions, and cost drivers.
 
-This project models that problem by building a pipeline that can answer questions such as:
+This project answers questions such as:
 
-* Which patients have the highest utilization?
-* Which patients may be at higher risk based on conditions, encounters, medications, and observations?
-* How can raw clinical and claims data be transformed into analytics-ready patient-level features?
-* How can healthcare data engineering outputs support dashboards and predictive modeling?
-
----
-
-## Current Project Status
-
-Current completion estimate: **65%**
-
-Completed:
-
-* Project folder structure
-* Synthetic raw healthcare data generation
-* Raw data inspection
-* Raw schema summary creation
-* Bronze ingestion layer
-* Bronze validation layer
-* Silver cleaning layer
-* Silver validation layer
-* Gold analytics layer
-* Gold validation layer
-* One-command local pipeline runner
-* Gold layer profiling report
-
-Remaining major components:
-
-* Streamlit dashboard
-* Tableau-ready exports
-* PyTorch feature engineering dataset
-* Baseline PyTorch patient risk model
-* dbt transformation layer
-* Snowflake integration
-* Databricks Delta Lake implementation plan or notebooks
-* Final portfolio polish
-
----
-
-## Tech Stack
-
-### Current Local Implementation
-
-* Python
-* pandas
-* Parquet
-* pathlib
-* JSON
-* Markdown
-* Git/GitHub
-
-### Planned / Portfolio Extension Stack
-
-* Databricks
-* Delta Lake
-* Snowflake
-* dbt
-* PyTorch
-* Streamlit
-* Tableau
-
----
+- Which patients are most likely to become high-cost patients?
+- Which chronic conditions are associated with higher utilization?
+- How does inpatient, outpatient, and carrier claim activity vary by patient?
+- Which patients may benefit from care management intervention?
+- How can curated healthcare data be prepared for BI dashboards and machine learning?
 
 ## Data Sources
 
-### Synthetic EHR/FHIR-Style Data
+This project uses synthetic data only.
 
-The EHR portion of the project is based on synthetic Synthea-style healthcare data.
+### Synthetic EHR / FHIR-Style Data
 
-Example domains include:
+The EHR side of the project is modeled after Synthea-style patient records.
 
-* Patients
-* Encounters
-* Conditions
-* Medications
-* Observations
+Example entities include:
 
-### Synthetic Medicare Claims-Style Data
+- Patients
+- Encounters
+- Conditions
+- Medications
+- Observations
 
-The claims portion of the project is based on synthetic CMS Medicare SynPUF-style data.
+### Synthetic CMS Medicare Claims-Style Data
 
-Example domains include:
+The claims side of the project is modeled after CMS Medicare DE-SynPUF-style data.
 
-* Beneficiary summaries
-* Inpatient claims
-* Outpatient claims
-* Carrier claims
-* Prescription drug events
+Example entities include:
 
-The current local version uses generated sample data to simulate these structures.
+- Beneficiary summaries
+- Inpatient claims
+- Outpatient claims
+- Carrier claims
+- Prescription drug events
 
----
+Because the data is synthetic, this project does not contain real patient information or protected health information.
 
 ## Architecture
 
-### Current Local Architecture
-
 ```text
-Synthetic Raw Data
-        |
-        v
-Raw CSV Files
-        |
-        v
-Bronze Parquet Tables
-        |
-        v
-Bronze Validation
-        |
-        v
-Silver Cleaned Parquet Tables
-        |
-        v
-Silver Validation
-        |
-        v
-Gold Analytics Parquet Tables
-        |
-        v
-Gold Validation
-        |
-        v
-Gold Profile Report
+Synthetic EHR/FHIR Data              Synthetic CMS Claims Data
+        |                                      |
+        v                                      v
+Raw CSV / Source Files              Raw CSV / Source Files
+        |                                      |
+        +-------------------+------------------+
+                            |
+                            v
+                    Bronze Layer
+              Raw standardized Parquet tables
+                            |
+                            v
+                    Silver Layer
+          Cleaned, typed, analytics-ready tables
+                            |
+                            v
+                     Gold Layer
+        Patient master, utilization, condition,
+       medication, observation, and risk features
+                            |
+        +-------------------+-------------------+-------------------+
+        |                   |                   |                   |
+        v                   v                   v                   v
+ Tableau-ready CSVs   Streamlit Dashboard   PyTorch ML Dataset   Snowflake
+                                                                    |
+                                                                    v
+                                                                  dbt
+                            |
+                            v
+                Databricks Delta Lake Migration
+          Bronze Delta -> Silver Delta -> Gold Delta
 ```
 
-### Planned Cloud Lakehouse Architecture
+## Tech Stack
 
-```text
-Synthea EHR/FHIR Data       CMS SynPUF Claims Data
-            |                         |
-            v                         v
-        Databricks Bronze Delta Tables
-                      |
-                      v
-        Databricks Silver Cleaned Tables
-                      |
-                      v
-        Databricks Gold Patient Analytics Tables
-                      |
-                      v
-              Snowflake Warehouse
-                      |
-                      v
-                  dbt Marts
-                      |
-                      v
-        PyTorch Patient Risk Prediction Model
-                      |
-                      v
-          Streamlit / Tableau Dashboard
-```
+### Data Engineering
 
----
+- Python
+- pandas
+- Parquet
+- PySpark
+- Databricks
+- Delta Lake
+- Snowflake
 
-## Medallion Architecture
+### Analytics Engineering
 
-This project follows a Bronze / Silver / Gold medallion architecture.
+- dbt
+- DuckDB
+- SQL
+- Data tests
+- Staging, intermediate, and mart models
 
-### Raw Layer
+### Machine Learning
 
-The raw layer contains synthetic source files that represent EHR and claims data.
+- PyTorch
+- Tensor datasets
+- Baseline neural network model
+- Model evaluation reporting
 
-Purpose:
+### BI and Reporting
 
-* Preserve source-like data
-* Simulate external healthcare data ingestion
-* Provide input files for Bronze ingestion
+- Streamlit
+- Tableau-ready CSV exports
+- Gold profile reports
+- JSON metadata reports
 
-### Bronze Layer
+### Development Workflow
 
-The Bronze layer stores raw data in a standardized Parquet format.
-
-Purpose:
-
-* Convert raw CSV files into Parquet
-* Preserve source-level detail
-* Create a consistent local lakehouse storage format
-
-### Silver Layer
-
-The Silver layer contains cleaned and standardized healthcare data.
-
-Purpose:
-
-* Standardize column names
-* Clean patient, encounter, condition, medication, observation, and claims data
-* Prepare reliable intermediate tables for analytics modeling
-
-### Gold Layer
-
-The Gold layer contains analytics-ready patient and healthcare summary tables.
-
-Purpose:
-
-* Create patient-level analytical outputs
-* Support business intelligence dashboards
-* Support patient risk feature engineering
-* Prepare data for downstream machine learning
-
----
-
-## Current Gold Outputs
-
-The current Gold layer produces the following Parquet tables:
-
-| Gold Table                           | Purpose                                                     |
-| ------------------------------------ | ----------------------------------------------------------- |
-| `gold_patient_crosswalk.parquet`     | Links patient identifiers across EHR and claims-style data  |
-| `gold_patient_master.parquet`        | Creates a consolidated patient-level master table           |
-| `gold_condition_summary.parquet`     | Summarizes patient condition history                        |
-| `gold_utilization_summary.parquet`   | Summarizes patient encounter and utilization patterns       |
-| `gold_medication_summary.parquet`    | Summarizes medication history by patient                    |
-| `gold_observation_summary.parquet`   | Summarizes observation and measurement data                 |
-| `gold_patient_risk_features.parquet` | Creates patient-level features for downstream risk modeling |
-
----
+- VS Code
+- Git
+- GitHub
+- Bash
+- Python virtual environment
 
 ## Project Structure
 
 ```text
-.
-├── data/
-│   ├── raw/
-│   │   ├── synthea/
-│   │   └── synpuf/
-│   ├── bronze/
-│   ├── silver/
-│   └── gold/
-│
-├── docs/
-│   ├── data_acquisition.md
-│   ├── raw_data_manifest.md
-│   ├── bronze_layer.md
-│   ├── silver_layer.md
-│   ├── gold_layer.md
-│   └── local_pipeline_runner.md
-│
-├── reports/
-│   └── gold/
-│       ├── gold_profile_report.md
-│       └── gold_profile_report.json
-│
-├── scripts/
-│   ├── generate_data/
-│   │   └── create_sample_raw_data.py
-│   ├── inspect/
-│   │   ├── inspect_raw_files.py
-│   │   └── create_schema_summary.py
-│   ├── bronze/
-│   │   ├── ingest_raw_to_bronze.py
-│   │   └── validate_bronze_tables.py
-│   ├── silver/
-│   │   ├── build_silver_tables.py
-│   │   └── validate_silver_tables.py
-│   ├── gold/
-│   │   ├── build_gold_tables.py
-│   │   ├── validate_gold_tables.py
-│   │   └── profile_gold_tables.py
-│   └── run_local_pipeline.py
-│
-├── dbt/
-│   └── healthcare_claims/
-│
-├── streamlit_app/
-│
-└── README.md
+healthcare_claims_ehr_lakehouse/
+|
+|-- data/
+|   |-- raw/
+|   |   |-- synthea/
+|   |   |-- synpuf/
+|   |-- bronze/
+|   |-- silver/
+|   |-- gold/
+|   |-- tableau_exports/
+|   |-- ml/
+|   |-- dbt/                      # ignored by Git
+|
+|-- dbt/
+|   |-- healthcare_claims/
+|       |-- dbt_project.yml
+|       |-- models/
+|           |-- staging/
+|           |-- intermediate/
+|           |-- marts/
+|
+|-- docs/
+|   |-- data_acquisition.md
+|   |-- raw_data_manifest.md
+|   |-- bronze_layer.md
+|   |-- silver_layer.md
+|   |-- gold_layer.md
+|   |-- local_pipeline_runner.md
+|   |-- tableau_exports.md
+|   |-- ml_feature_engineering.md
+|   |-- pytorch_model.md
+|   |-- databricks_delta_lake.md
+|
+|-- notebooks/
+|   |-- databricks/
+|       |-- 01_bronze_delta.py
+|       |-- 02_silver_delta.py
+|       |-- 03_gold_delta.py
+|
+|-- reports/
+|   |-- gold/
+|   |-- tableau_exports/
+|   |-- ml/
+|   |-- snowflake/
+|
+|-- scripts/
+|   |-- generate_data/
+|   |-- inspect/
+|   |-- bronze/
+|   |-- silver/
+|   |-- gold/
+|   |-- exports/
+|   |-- ml/
+|   |-- snowflake/
+|   |-- run_local_pipeline.py
+|
+|-- streamlit_app/
+|   |-- app.py
+|
+|-- README.md
+|-- requirements.txt
+|-- .gitignore
 ```
 
----
+## Medallion Architecture
 
-## How to Run the Local Pipeline
+### Bronze Layer
 
-From the project root, run:
+The Bronze layer ingests raw synthetic EHR and claims files into standardized Parquet tables.
+
+Bronze responsibilities include:
+
+- Loading raw source data
+- Preserving source-level detail
+- Standardizing file outputs
+- Creating the foundation for downstream validation and cleaning
+
+Key scripts:
+
+```text
+scripts/bronze/build_bronze_tables.py
+scripts/bronze/validate_bronze_tables.py
+```
+
+### Silver Layer
+
+The Silver layer cleans and standardizes Bronze data.
+
+Silver responsibilities include:
+
+- Renaming fields
+- Casting dates and numeric values
+- Standardizing identifiers
+- Removing duplicates
+- Preparing clean tables for Gold aggregation
+
+Key scripts:
+
+```text
+scripts/silver/build_silver_tables.py
+scripts/silver/validate_silver_tables.py
+```
+
+### Gold Layer
+
+The Gold layer creates patient-level analytics tables.
+
+Gold outputs include:
+
+```text
+gold_patient_crosswalk.parquet
+gold_patient_master.parquet
+gold_condition_summary.parquet
+gold_utilization_summary.parquet
+gold_medication_summary.parquet
+gold_observation_summary.parquet
+gold_patient_risk_features.parquet
+```
+
+Gold responsibilities include:
+
+- Linking EHR patients to claims beneficiaries
+- Creating patient demographic features
+- Summarizing utilization
+- Summarizing conditions
+- Summarizing medications
+- Summarizing observations
+- Creating ML-ready patient risk features
+
+Key scripts:
+
+```text
+scripts/gold/build_gold_tables.py
+scripts/gold/validate_gold_tables.py
+scripts/gold/profile_gold_tables.py
+```
+
+## Patient Identifier Strategy
+
+The project uses a synthetic patient crosswalk to link EHR-style patients and claims-style beneficiaries.
+
+Core identifier columns used across Gold, Tableau exports, ML source data, dbt, and Snowflake:
+
+```text
+ehr_patient_id
+claim_beneficiary_id
+crosswalk_method
+```
+
+In a real healthcare environment, patient matching would typically require an enterprise master patient index, deterministic matching, probabilistic matching, or privacy-preserving record linkage.
+
+For this portfolio project, the synthetic crosswalk demonstrates the architectural pattern without using real patient data.
+
+## Tableau-Ready Exports
+
+The project creates CSV extracts designed for Tableau Public or Tableau Desktop.
+
+Current Tableau export outputs:
+
+```text
+data/tableau_exports/patient_master_export.csv
+data/tableau_exports/utilization_summary_export.csv
+data/tableau_exports/condition_summary_export.csv
+data/tableau_exports/patient_risk_features_export.csv
+reports/tableau_exports/tableau_export_manifest.json
+```
+
+Key script:
+
+```text
+scripts/exports/create_tableau_exports.py
+```
+
+Documentation:
+
+```text
+docs/tableau_exports.md
+```
+
+These exports allow the curated Gold layer to be consumed by BI tools without requiring a database connection.
+
+## Streamlit Dashboard
+
+The project includes a Streamlit dashboard MVP for interactive exploration of the Gold layer.
+
+Key file:
+
+```text
+streamlit_app/app.py
+```
+
+The dashboard is designed to highlight:
+
+- Patient-level metrics
+- Utilization summaries
+- Condition summaries
+- Risk feature outputs
+
+Run command:
+
+```bash
+streamlit run streamlit_app/app.py
+```
+
+## PyTorch Machine Learning Layer
+
+The project includes a PyTorch-ready machine learning workflow.
+
+The ML layer creates patient-level tensors from Gold patient risk features and trains a baseline model for high-cost patient risk classification.
+
+Current ML outputs:
+
+```text
+data/ml/patient_risk_features.csv
+data/ml/train_features.pt
+data/ml/train_labels.pt
+data/ml/test_features.pt
+data/ml/test_labels.pt
+reports/ml/ml_dataset_metadata.json
+reports/ml/training_report.json
+reports/ml/model_evaluation_report.json
+```
+
+Key scripts:
+
+```text
+scripts/ml/create_ml_dataset.py
+scripts/ml/train_patient_risk_model.py
+scripts/ml/evaluate_patient_risk_model.py
+```
+
+Documentation:
+
+```text
+docs/ml_feature_engineering.md
+docs/pytorch_model.md
+```
+
+### Important Modeling Note
+
+The current synthetic sample dataset is intentionally small.
+
+The PyTorch model metrics are mainly workflow-validation metrics, not production-grade predictive performance.
+
+The purpose of this layer is to demonstrate the full machine learning pipeline pattern:
+
+```text
+Gold patient features
+        |
+        v
+ML-ready CSV
+        |
+        v
+PyTorch tensors
+        |
+        v
+Baseline model training
+        |
+        v
+Evaluation report
+```
+
+## dbt Analytics Engineering Layer
+
+The project includes a dbt implementation using DuckDB for local analytics engineering development.
+
+The dbt project includes:
+
+- Staging models
+- Intermediate models
+- Mart models
+- Schema tests
+
+dbt project path:
+
+```text
+dbt/healthcare_claims/
+```
+
+Key dbt files:
+
+```text
+dbt/healthcare_claims/dbt_project.yml
+
+dbt/healthcare_claims/models/staging/stg_gold_patient_master.sql
+dbt/healthcare_claims/models/staging/stg_gold_utilization_summary.sql
+dbt/healthcare_claims/models/staging/stg_gold_condition_summary.sql
+dbt/healthcare_claims/models/staging/stg_gold_patient_risk_features.sql
+dbt/healthcare_claims/models/staging/schema.yml
+
+dbt/healthcare_claims/models/intermediate/int_patient_utilization.sql
+dbt/healthcare_claims/models/intermediate/int_patient_conditions.sql
+dbt/healthcare_claims/models/intermediate/schema.yml
+
+dbt/healthcare_claims/models/marts/mart_patient_risk_features.sql
+dbt/healthcare_claims/models/marts/schema.yml
+```
+
+Run commands:
+
+```bash
+cd dbt/healthcare_claims
+dbt run
+dbt test
+```
+
+The dbt layer demonstrates analytics engineering best practices by transforming Gold data into tested, documented analytical models.
+
+## Snowflake Warehouse Layer
+
+The project includes a Snowflake loading and validation workflow for the Gold layer.
+
+Current Snowflake outputs:
+
+```text
+scripts/snowflake/create_snowflake_objects.sql
+scripts/snowflake/load_gold_to_snowflake.py
+scripts/snowflake/validate_snowflake_tables.py
+reports/snowflake/snowflake_load_report.json
+reports/snowflake/snowflake_validation_report.json
+```
+
+Snowflake workflow:
+
+```text
+Create Snowflake objects
+        |
+        v
+Load Gold Parquet tables
+        |
+        v
+Validate Snowflake table counts and structure
+```
+
+Key scripts:
+
+```text
+scripts/snowflake/load_gold_to_snowflake.py
+scripts/snowflake/validate_snowflake_tables.py
+```
+
+### Snowflake Boolean Handling Note
+
+Some local Parquet flag columns are stored as `0` and `1`.
+
+Snowflake table flag columns were set to `NUMBER(1,0)` instead of `BOOLEAN` to avoid Parquet casting issues.
+
+For this portfolio project:
+
+```text
+1 = true
+0 = false
+```
+
+This design choice is documented because it reflects a realistic data engineering decision when loading typed Parquet files into a warehouse.
+
+## Databricks Delta Lake Layer
+
+The project includes Databricks notebook-style scripts that show how the local pandas/Parquet pipeline maps to a scalable Databricks Delta Lake architecture.
+
+Databricks files:
+
+```text
+notebooks/databricks/01_bronze_delta.py
+notebooks/databricks/02_silver_delta.py
+notebooks/databricks/03_gold_delta.py
+```
+
+Documentation:
+
+```text
+docs/databricks_delta_lake.md
+```
+
+The Databricks layer demonstrates:
+
+- Bronze Delta ingestion
+- Silver Delta cleaning
+- Gold Delta marts
+- PySpark transformations
+- Delta Lake table writes
+- Gold validation checks
+- Migration from local Parquet to cloud lakehouse architecture
+
+### Important Databricks Note
+
+These files are intended for Databricks Runtime.
+
+Local VS Code warnings about the following are expected:
+
+```text
+spark
+display
+pyspark
+Databricks notebook magic commands
+```
+
+These warnings do not mean the project is incorrect.
+
+The files are portfolio migration artifacts that show how the pipeline would be implemented in a Databricks environment.
+
+## Reports and Metadata
+
+The project generates reports that document pipeline outputs and validation results.
+
+Current report outputs include:
+
+```text
+reports/gold/gold_profile_report.md
+reports/gold/gold_profile_report.json
+
+reports/tableau_exports/tableau_export_manifest.json
+
+reports/ml/ml_dataset_metadata.json
+reports/ml/training_report.json
+reports/ml/model_evaluation_report.json
+
+reports/snowflake/snowflake_load_report.json
+reports/snowflake/snowflake_validation_report.json
+```
+
+These reports make the project easier to review because they show what was created, validated, and modeled.
+
+## How to Run This Project Locally
+
+### 1. Create and activate a virtual environment
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+On Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+### 2. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Run the local pipeline
 
 ```bash
 python scripts/run_local_pipeline.py
 ```
 
-The local pipeline runner executes the project in this order:
+This runs the main local pipeline stages and creates Bronze, Silver, Gold, validation, and report outputs.
 
-1. Generate sample raw data
-2. Inspect raw files
-3. Create raw schema summary
-4. Build Bronze tables
-5. Validate Bronze tables
-6. Build Silver tables
-7. Validate Silver tables
-8. Build Gold tables
-9. Validate Gold tables
-
-This provides a repeatable local workflow that simulates how the project could later be orchestrated with Databricks Workflows, Airflow, Prefect, or Dagster.
-
----
-
-## How to Profile the Gold Layer
-
-After the Gold tables are built, run:
+### 4. Create Tableau exports
 
 ```bash
-python scripts/gold/profile_gold_tables.py
+python scripts/exports/create_tableau_exports.py
 ```
 
-This creates:
+### 5. Create the ML dataset
+
+```bash
+python scripts/ml/create_ml_dataset.py
+```
+
+### 6. Train the PyTorch model
+
+```bash
+python scripts/ml/train_patient_risk_model.py
+```
+
+### 7. Evaluate the PyTorch model
+
+```bash
+python scripts/ml/evaluate_patient_risk_model.py
+```
+
+### 8. Launch the Streamlit dashboard
+
+```bash
+streamlit run streamlit_app/app.py
+```
+
+## How to Run dbt
+
+From the dbt project directory:
+
+```bash
+cd dbt/healthcare_claims
+dbt run
+dbt test
+```
+
+## How to Run Snowflake Workflow
+
+The Snowflake layer requires valid Snowflake credentials and environment configuration.
+
+Create Snowflake objects using:
 
 ```text
-reports/gold/gold_profile_report.md
-reports/gold/gold_profile_report.json
+scripts/snowflake/create_snowflake_objects.sql
 ```
 
-The Gold profile report includes:
+Then run:
 
-* Row counts
-* Column counts
-* Column names
-* Null counts
-* Null percentages
-* Duplicate checks
-* Sample records
+```bash
+python scripts/snowflake/load_gold_to_snowflake.py
+python scripts/snowflake/validate_snowflake_tables.py
+```
 
-This provides evidence that the Gold analytics tables were inspected and are ready for downstream BI and ML use cases.
+## How to Use Databricks Artifacts
 
----
+The Databricks files are notebook-style Python scripts intended for Databricks Runtime.
 
-## Key Scripts
-
-| Script                                            | Purpose                                        |
-| ------------------------------------------------- | ---------------------------------------------- |
-| `scripts/generate_data/create_sample_raw_data.py` | Generates sample synthetic healthcare raw data |
-| `scripts/inspect/inspect_raw_files.py`            | Inspects raw source files                      |
-| `scripts/inspect/create_schema_summary.py`        | Creates a schema summary of raw files          |
-| `scripts/bronze/ingest_raw_to_bronze.py`          | Converts raw files into Bronze Parquet tables  |
-| `scripts/bronze/validate_bronze_tables.py`        | Validates Bronze table existence and structure |
-| `scripts/silver/build_silver_tables.py`           | Builds cleaned Silver tables                   |
-| `scripts/silver/validate_silver_tables.py`        | Validates Silver table outputs                 |
-| `scripts/gold/build_gold_tables.py`               | Builds Gold analytics tables                   |
-| `scripts/gold/validate_gold_tables.py`            | Validates Gold table outputs                   |
-| `scripts/gold/profile_gold_tables.py`             | Profiles Gold analytics outputs                |
-| `scripts/run_local_pipeline.py`                   | Runs the local medallion pipeline end-to-end   |
-
----
-
-## Analytics Use Cases
-
-The Gold layer is designed to support healthcare analytics questions such as:
-
-* Which patients have the highest utilization?
-* Which patients have multiple chronic conditions?
-* Which patient groups show higher medication or observation activity?
-* Which patients may be higher risk based on combined clinical and claims-style features?
-* What patient-level features can be used for predictive modeling?
-
----
-
-## Machine Learning Use Case
-
-The project is designed to support a future PyTorch model that predicts patient risk or utilization.
-
-Potential model target variables:
-
-* High-risk patient flag
-* High-utilization patient flag
-* High-cost patient flag
-
-Potential feature groups:
-
-* Demographics
-* Encounter counts
-* Condition counts
-* Medication counts
-* Observation counts
-* Claims-style utilization indicators
-* Patient-level risk features
-
-The current Gold table `gold_patient_risk_features.parquet` is intended to become the foundation for this ML workflow.
-
----
-
-## Portfolio Value
-
-This project demonstrates:
-
-* Healthcare data modeling
-* Claims and EHR data integration concepts
-* Medallion architecture design
-* Local lakehouse development with Parquet
-* Data pipeline orchestration
-* Data validation
-* Data profiling
-* Analytics-ready Gold table design
-* Feature engineering preparation
-* BI and ML pipeline planning
-* Git-based project organization
-
----
-
-## Planned Next Steps
-
-### 1. Streamlit Dashboard
-
-Build a Streamlit dashboard from the Gold layer.
-
-Planned features:
-
-* Patient count overview
-* Utilization summary
-* Condition summary
-* Medication summary
-* Observation summary
-* Patient risk feature exploration
-
-### 2. Tableau-Ready Exports
-
-Create clean CSV exports for Tableau Public.
-
-Planned outputs:
-
-* Patient master export
-* Utilization summary export
-* Condition summary export
-* Patient risk features export
-
-### 3. PyTorch Feature Engineering
-
-Create an ML-ready dataset from the Gold patient risk features table.
-
-Planned outputs:
-
-* Train/test split
-* Numeric features
-* Target variable
-* Saved PyTorch tensors or CSV files
-
-### 4. Baseline PyTorch Model
-
-Train a simple neural network to predict patient risk or utilization.
-
-Planned outputs:
-
-* Model training script
-* Evaluation script
-* Saved model artifact
-* Metrics report
-
-### 5. dbt Layer
-
-Mirror key transformations in dbt.
-
-Planned components:
-
-* Sources
-* Staging models
-* Intermediate models
-* Mart models
-* dbt tests
-* dbt documentation
-
-### 6. Snowflake Integration
-
-Load Gold analytics tables into Snowflake.
-
-Planned components:
-
-* Snowflake database/schema setup
-* Table creation
-* Data loading script
-* Validation queries
-
-### 7. Databricks Delta Lake Implementation
-
-Document or build a Databricks version of the medallion architecture.
-
-Planned components:
-
-* Bronze Delta tables
-* Silver Delta transformations
-* Gold Delta marts
-* Delta Lake documentation
-* Databricks workflow plan
-
----
-
-## Final Goal
-
-The final version of this project will demonstrate a full healthcare data platform workflow:
+Recommended Databricks order:
 
 ```text
-Synthetic Healthcare Data
+01_bronze_delta.py
         |
         v
-Local Medallion Lakehouse
+02_silver_delta.py
         |
         v
-Validated Gold Analytics Tables
-        |
-        v
-Snowflake / dbt Analytics Layer
-        |
-        v
-PyTorch Patient Risk Model
-        |
-        v
-Streamlit / Tableau Dashboard
+03_gold_delta.py
 ```
 
-The project is intended to serve as a portfolio artifact for Analytics Engineering, Data Engineering, BI Engineering, and healthcare analytics roles.
+These files can be imported into Databricks notebooks or copied into a Databricks workspace.
+
+They are not required for the local pipeline to run.
+
+## Business Value
+
+This project demonstrates how a healthcare organization could build a unified analytics platform across clinical and claims data.
+
+Potential business value includes:
+
+- Improved visibility into patient utilization
+- Identification of high-cost or high-risk patients
+- Better chronic condition monitoring
+- Care management prioritization
+- BI-ready executive reporting
+- ML-ready patient feature generation
+- Scalable migration path from local development to Databricks and Snowflake
+
+## Skills Demonstrated
+
+### Data Engineering
+
+- Medallion architecture
+- Raw to Bronze ingestion
+- Bronze to Silver cleaning
+- Silver to Gold aggregation
+- Parquet data modeling
+- Validation scripts
+- Pipeline orchestration
+- Snowflake loading
+- Databricks Delta Lake migration
+
+### Analytics Engineering
+
+- dbt project structure
+- Staging models
+- Intermediate models
+- Mart models
+- Schema tests
+- SQL transformations
+- Patient-level analytical modeling
+
+### Machine Learning Engineering
+
+- Feature engineering
+- Train/test split creation
+- PyTorch tensor generation
+- Baseline neural network model training
+- Model evaluation reporting
+- ML workflow documentation
+
+### Business Intelligence
+
+- Streamlit dashboard development
+- Tableau-ready extracts
+- KPI design
+- Patient utilization analysis
+- Risk feature reporting
+
+### Healthcare Analytics
+
+- EHR-style data modeling
+- Claims-style data modeling
+- Patient crosswalk design
+- Utilization summaries
+- Chronic condition summaries
+- High-cost patient risk features
+
+## Current Status
+
+The project currently includes:
+
+- Synthetic raw healthcare data
+- Bronze, Silver, and Gold local Parquet pipeline
+- Bronze, Silver, and Gold validation
+- Gold profiling reports
+- One-command local pipeline runner
+- Streamlit dashboard MVP
+- Tableau-ready CSV exports
+- PyTorch-ready ML dataset
+- Baseline PyTorch model training and evaluation
+- dbt staging, intermediate, and mart models
+- dbt tests
+- Snowflake object creation, loading, and validation workflow
+- Databricks Bronze, Silver, and Gold Delta notebook-style scripts
+- Databricks Delta Lake documentation
+
+## Future Improvements
+
+Potential future enhancements include:
+
+- Use larger synthetic datasets
+- Add more realistic patient matching logic
+- Add more clinical features from observations and medications
+- Add diagnosis grouping such as CCS or HCC-style categories
+- Add model comparison across logistic regression, tree-based models, and neural networks
+- Add SHAP or feature importance explainability
+- Add automated orchestration with Prefect, Airflow, or Databricks Workflows
+- Add CI checks for Python scripts and dbt models
+- Deploy the Streamlit dashboard
+- Publish Tableau Public dashboard screenshots
+- Expand Snowflake/dbt documentation with lineage screenshots
+- Add a formal architecture diagram image
+
+## Recruiter Summary
+
+This project demonstrates an end-to-end healthcare analytics lakehouse using Python, pandas, Parquet, Databricks, Delta Lake, Snowflake, dbt, PyTorch, Streamlit, and Tableau-ready exports.
+
+It shows the ability to design a full data platform from raw synthetic clinical and claims data through curated analytics marts, BI outputs, warehouse loading, analytics engineering models, and machine learning-ready patient risk features.
