@@ -439,6 +439,36 @@ Run command:
 streamlit run streamlit_app/app.py
 ```
 
+## Patient 360 Analytics Mart
+
+This project includes a Patient 360 Gold mart that combines the most useful synthetic linked EHR and claims data into a single patient-level analytics table.
+
+The Patient 360 mart is designed for executive dashboarding, care-management review, Tableau exports, and Streamlit-based portfolio storytelling. It combines patient demographics, utilization metrics, condition burden, ML-ready risk features, and dashboard-friendly business segments.
+
+Key Patient 360 outputs include:
+
+- `data/gold/gold_patient_360.parquet`
+- `data/tableau_exports/patient_360_export.csv`
+- `reports/gold/patient_360_build_report.json`
+- `reports/gold/patient_360_profile_report.json`
+- `reports/gold/patient_360_profile_report.md`
+
+The Patient 360 table uses the synthetic linked Gold pipeline. The real-world public MIMIC-IV Demo and CMS Claims PUF datasets are intentionally kept as separate ingestion and validation tracks because they are not naturally linkable.## Patient 360 Analytics Mart
+
+This project includes a Patient 360 Gold mart that combines the most useful synthetic linked EHR and claims data into a single patient-level analytics table.
+
+The Patient 360 mart is designed for executive dashboarding, care-management review, Tableau exports, and Streamlit-based portfolio storytelling. It combines patient demographics, utilization metrics, condition burden, ML-ready risk features, and dashboard-friendly business segments.
+
+Key Patient 360 outputs include:
+
+- `data/gold/gold_patient_360.parquet`
+- `data/tableau_exports/patient_360_export.csv`
+- `reports/gold/patient_360_build_report.json`
+- `reports/gold/patient_360_profile_report.json`
+- `reports/gold/patient_360_profile_report.md`
+
+The Patient 360 table uses the synthetic linked Gold pipeline. The real-world public MIMIC-IV Demo and CMS Claims PUF datasets are intentionally kept as separate ingestion and validation tracks because they are not naturally linkable.
+
 ## PyTorch Machine Learning Layer
 
 The project includes a PyTorch-ready machine learning workflow.

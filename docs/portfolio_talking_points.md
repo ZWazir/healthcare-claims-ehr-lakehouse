@@ -195,6 +195,25 @@ The dbt layer demonstrates analytics engineering practices on top of the curated
 
 I created staging models to standardize Gold tables, intermediate models to combine patient utilization and condition logic, and a mart model for patient risk features. I also added schema tests so the project includes transformation logic and quality checks.
 
+## Patient 360 Talking Point
+
+I added a Patient 360 Gold mart to make the project more business-facing and easier to explain to recruiters, hiring managers, and analytics leaders.
+
+Rather than only showing separate technical tables, Patient 360 combines demographics, utilization, condition burden, risk features, and dashboard-friendly segments into one patient-level view. This mirrors how healthcare analytics teams often build patient-centered marts for care management, executive reporting, and BI consumption.
+
+The Patient 360 milestone demonstrates that I can move beyond raw engineering and design an analytics product that connects:
+
+- Data ingestion
+- Medallion architecture
+- Patient-level data modeling
+- BI-ready exports
+- Streamlit dashboarding
+- Data quality profiling
+- Business segmentation
+- Care-management storytelling
+
+I also kept the real-world public data extension separate from Patient 360 because MIMIC-IV Demo and CMS Claims PUF are not naturally linkable. This is an important design decision because it avoids falsely implying that unrelated public datasets can be joined into a real patient-level record.
+
 ## Interview Q&A
 
 ### Why did you build this project?
