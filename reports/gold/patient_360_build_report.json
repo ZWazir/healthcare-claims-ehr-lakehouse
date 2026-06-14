@@ -1,6 +1,6 @@
 {
   "output_path": "data/gold/gold_patient_360.parquet",
-  "output_rows": 3,
+  "output_rows": 250,
   "output_columns": 71,
   "patient_keys": [
     "ehr_patient_id",
@@ -9,32 +9,32 @@
   ],
   "source_tables": {
     "patient_master": {
-      "rows": 3,
+      "rows": 250,
       "columns": 17,
       "available": true
     },
     "utilization_summary": {
-      "rows": 3,
+      "rows": 250,
       "columns": 19,
       "available": true
     },
     "condition_summary": {
-      "rows": 3,
+      "rows": 250,
       "columns": 18,
       "available": true
     },
     "medication_summary": {
-      "rows": 3,
+      "rows": 250,
       "columns": 9,
       "available": true
     },
     "observation_summary": {
-      "rows": 3,
+      "rows": 250,
       "columns": 7,
       "available": true
     },
     "patient_risk_features": {
-      "rows": 3,
+      "rows": 250,
       "columns": 64,
       "available": true
     }

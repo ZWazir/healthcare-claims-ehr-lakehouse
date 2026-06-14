@@ -6,61 +6,67 @@ This report profiles the `gold_patient_360.parquet` Gold mart. The table combine
 
 ## Table Shape
 
-- Rows: `3`
+- Rows: `250`
 - Columns: `71`
 
 ## Patient Key Quality
 
 - Patient keys found: `ehr_patient_id, claim_beneficiary_id, crosswalk_method`
-- Unique patient key records: `3`
+- Unique patient key records: `250`
 - Duplicate patient key rows: `0`
 
 ## Business Field Counts
 
 ### care_management_priority
 
-- High priority: `3`
+- High priority: `94`
+- Low priority: `86`
+- Medium priority: `70`
 
 ### utilization_segment
 
-- Not enough variation: `3`
+- Low utilization: `119`
+- High utilization: `80`
+- Medium utilization: `51`
 
 ### cost_segment
 
-- Low cost: `1`
-- Medium cost: `1`
-- High cost: `1`
+- Low cost: `125`
+- High cost: `63`
+- Medium cost: `62`
 
 ### age_band
 
-- 65+: `2`
-- 50-64: `1`
+- 50-64: `94`
+- 65+: `72`
+- 35-49: `62`
+- 18-34: `22`
 
 ## Important Numeric Fields
 
 ### patient_360_total_utilization_events
 
-- Total: `12.0`
-- Mean: `4.0`
-- Min: `4.0`
-- Median: `4.0`
-- Max: `4.0`
+- Total: `2798.0`
+- Mean: `11.19`
+- Min: `2.0`
+- Median: `8.0`
+- Max: `34.0`
 
 ### patient_360_total_cost_proxy
 
-- Total: `67135.52`
-- Mean: `22378.51`
-- Min: `3948.3199999999997`
-- Median: `6512.6`
-- Max: `56674.6`
+- Total: `14836222.37`
+- Mean: `59344.89`
+- Min: `546.0`
+- Median: `11869.625`
+- Max: `373741.519047619`
 
 ### patient_360_condition_burden
 
-- Total: `17`
-- Mean: `5.67`
-- Min: `3`
+- Total: `1612.0`
+- Mean: `6.45`
+- Min: `0.0`
 - Median: `4.0`
-- Max: `10`
+- Max: `24.0`
 
 ## Notes
 

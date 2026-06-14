@@ -264,17 +264,60 @@ def add_patient_360_features(df: pd.DataFrame) -> pd.DataFrame:
     else:
         patient_360["cost_segment"] = "Not enough variation"
 
-    # Simple care-management priority field for recruiter-facing dashboard storytelling.
+    # Care-management priority field for recruiter-facing dashboard storytelling.
+    #
+    # This combines dashboard-friendly cost, utilization, and condition-burden
+    # signals into a simple triage field. The goal is not clinical decisioning;
+    # it is an explainable portfolio metric for care-management analytics.
+    condition_values = patient_360["patient_360_condition_burden"].fillna(0)
+
+    if condition_values.max() > 0 and condition_values.nunique() > 1:
+        high_condition_threshold = condition_values.quantile(0.75)
+        medium_condition_threshold = condition_values.quantile(0.50)
+    else:
+        high_condition_threshold = 1
+        medium_condition_threshold = 1
+
+    high_priority_mask = (
+        patient_360["cost_segment"].eq("High cost")
+        | patient_360["utilization_segment"].eq("High utilization")
+        | (
+            condition_values.ge(high_condition_threshold)
+            & condition_values.gt(0)
+        )
+    )
+
+    medium_priority_mask = (
+        patient_360["cost_segment"].eq("Medium cost")
+        | patient_360["utilization_segment"].eq("Medium utilization")
+        | (
+            condition_values.ge(medium_condition_threshold)
+            & condition_values.gt(0)
+        )
+        | patient_360.get(
+            "care_management_candidate_flag",
+            pd.Series(0, index=patient_360.index),
+        )
+        .fillna(0)
+        .astype(int)
+        .eq(1)
+        | patient_360.get(
+            "high_cost_patient_flag",
+            pd.Series(0, index=patient_360.index),
+        )
+        .fillna(0)
+        .astype(int)
+        .eq(1)
+    )
+
     patient_360["care_management_priority"] = np.select(
         [
-            patient_360["patient_360_total_cost_proxy"] > 0,
-            patient_360["patient_360_total_utilization_events"] > 0,
-            patient_360["patient_360_condition_burden"] > 0,
+            high_priority_mask,
+            medium_priority_mask,
         ],
         [
             "High priority",
             "Medium priority",
-            "Clinical review",
         ],
         default="Low priority",
     )

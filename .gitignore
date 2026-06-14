@@ -39,3 +39,7 @@ data/real_world/bronze/
 # Keep downloaded public datasets and generated Bronze Parquet files out of Git.
 data/real_world/raw/**
 data/real_world/bronze/**
+
+# Tableau temporary/recovery files
+.~*.twb*
+*.twbr

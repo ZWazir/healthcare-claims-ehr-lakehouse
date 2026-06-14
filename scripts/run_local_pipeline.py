@@ -9,6 +9,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 PIPELINE_STEPS = [
     {
+        "name": "Generate Synthetic Raw Data",
+        "script": PROJECT_ROOT
+        / "scripts"
+        / "generate_data"
+        / "create_sample_raw_data.py",
+    },
+    {
         "name": "Build Bronze Layer",
         "script": PROJECT_ROOT / "scripts" / "bronze" / "build_bronze_tables.py",
     },
@@ -70,7 +77,7 @@ def main() -> None:
     Run the full local healthcare lakehouse pipeline.
 
     Pipeline flow:
-    Raw data -> Bronze -> Silver -> Gold
+    Synthetic raw data -> Bronze -> Silver -> Gold
     """
 
     start_time = datetime.now()

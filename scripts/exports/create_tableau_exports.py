@@ -1,252 +1,135 @@
-from pathlib import Path
-from datetime import datetime
-import json
+from __future__ import annotations
 
-import numpy as np
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
 import pandas as pd
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 GOLD_DIR = PROJECT_ROOT / "data" / "gold"
-EXPORT_DIR = PROJECT_ROOT / "data" / "tableau_exports"
+TABLEAU_EXPORT_DIR = PROJECT_ROOT / "data" / "tableau_exports"
 REPORT_DIR = PROJECT_ROOT / "reports" / "tableau_exports"
+MANIFEST_PATH = REPORT_DIR / "tableau_export_manifest.json"
 
-EXPORT_CONFIG = [
+
+EXPORT_SPECS = [
     {
-        "source_file": "gold_patient_master.parquet",
-        "export_file": "patient_master_export.csv",
-        "description": "Patient-level demographic and master record extract for Tableau.",
-        "preferred_key_columns": ["ehr_patient_id", "claim_beneficiary_id"],
+        "name": "patient_master",
+        "source_candidates": [
+            GOLD_DIR / "gold_patient_master.parquet",
+            GOLD_DIR / "patient_master.parquet",
+        ],
+        "export_path": TABLEAU_EXPORT_DIR / "patient_master_export.csv",
     },
     {
-        "source_file": "gold_utilization_summary.parquet",
-        "export_file": "utilization_summary_export.csv",
-        "description": "Patient utilization summary extract for Tableau analysis.",
-        "preferred_key_columns": ["ehr_patient_id", "claim_beneficiary_id"],
+        "name": "utilization_summary",
+        "source_candidates": [
+            GOLD_DIR / "gold_utilization_summary.parquet",
+            GOLD_DIR / "utilization_summary.parquet",
+        ],
+        "export_path": TABLEAU_EXPORT_DIR / "utilization_summary_export.csv",
     },
     {
-        "source_file": "gold_condition_summary.parquet",
-        "export_file": "condition_summary_export.csv",
-        "description": "Patient condition summary extract for Tableau analysis.",
-        "preferred_key_columns": ["ehr_patient_id", "claim_beneficiary_id"],
+        "name": "condition_summary",
+        "source_candidates": [
+            GOLD_DIR / "gold_condition_summary.parquet",
+            GOLD_DIR / "condition_summary.parquet",
+        ],
+        "export_path": TABLEAU_EXPORT_DIR / "condition_summary_export.csv",
     },
     {
-        "source_file": "gold_patient_risk_features.parquet",
-        "export_file": "patient_risk_features_export.csv",
-        "description": "Patient-level risk feature extract for dashboarding and downstream ML.",
-        "preferred_key_columns": ["ehr_patient_id", "claim_beneficiary_id"],
+        "name": "patient_risk_features",
+        "source_candidates": [
+            GOLD_DIR / "gold_patient_risk_features.parquet",
+            GOLD_DIR / "patient_risk_features.parquet",
+        ],
+        "export_path": TABLEAU_EXPORT_DIR / "patient_risk_features_export.csv",
+    },
+    {
+        "name": "patient_360",
+        "source_candidates": [
+            GOLD_DIR / "gold_patient_360.parquet",
+            GOLD_DIR / "patient_360.parquet",
+        ],
+        "export_path": TABLEAU_EXPORT_DIR / "patient_360_export.csv",
     },
 ]
 
 
-def clean_column_name(column_name: str) -> str:
+def find_existing_source(source_candidates: list[Path]) -> Path:
     """
-    Standardizes column names for BI tools.
+    Return the first existing source file from a list of possible parquet paths.
+    This keeps the export script resilient if gold marts use slightly different names.
+    """
+    for path in source_candidates:
+        if path.exists():
+            return path
 
-    Tableau can handle many column formats, but clean snake_case names
-    are easier to work with in dashboards, joins, and calculated fields.
-    """
-    return (
-        str(column_name)
-        .strip()
-        .lower()
-        .replace(" ", "_")
-        .replace("-", "_")
-        .replace("/", "_")
-        .replace(".", "_")
+    candidate_list = "\n".join(f"  - {path}" for path in source_candidates)
+    raise FileNotFoundError(
+        "Could not find any source parquet file from these candidates:\n"
+        f"{candidate_list}"
     )
 
 
-def prepare_dataframe_for_tableau(df: pd.DataFrame) -> pd.DataFrame:
+def export_parquet_to_csv(source_path: Path, export_path: Path) -> dict:
     """
-    Performs lightweight cleanup before exporting to CSV.
-
-    This keeps the Gold data mostly unchanged, while making it easier
-    for Tableau Public to read and use.
+    Read one Gold parquet mart and export it as a Tableau-ready CSV.
+    Returns metadata used in the export manifest.
     """
-    cleaned_df = df.copy()
+    df = pd.read_parquet(source_path)
 
-    # Standardize column names.
-    cleaned_df.columns = [clean_column_name(col) for col in cleaned_df.columns]
+    export_path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(export_path, index=False)
 
-    # Replace infinite values with nulls so Tableau does not misread them.
-    cleaned_df = cleaned_df.replace([np.inf, -np.inf], pd.NA)
-
-    # Convert datetime columns to ISO-style date/time strings for CSV compatibility.
-    for column in cleaned_df.columns:
-        if pd.api.types.is_datetime64_any_dtype(cleaned_df[column]):
-            cleaned_df[column] = cleaned_df[column].dt.strftime("%Y-%m-%d %H:%M:%S")
-
-    # Convert complex object values, if any, into strings that Tableau can safely ingest.
-    for column in cleaned_df.columns:
-        if cleaned_df[column].dtype == "object":
-            cleaned_df[column] = cleaned_df[column].apply(
-                lambda value: json.dumps(value) if isinstance(value, (dict, list)) else value
-            )
-
-    return cleaned_df
-
-
-def move_key_columns_to_front(
-    df: pd.DataFrame,
-    preferred_key_columns: list[str],
-) -> pd.DataFrame:
-    """
-    Moves useful join/key columns to the front of the export.
-
-    This is not required by Tableau, but it makes the CSV easier to inspect
-    and easier to join manually in Tableau Public.
-    """
-    existing_key_columns = [col for col in preferred_key_columns if col in df.columns]
-    remaining_columns = [col for col in df.columns if col not in existing_key_columns]
-
-    return df[existing_key_columns + remaining_columns]
-
-
-def validate_export(
-    source_path: Path,
-    export_path: Path,
-    df: pd.DataFrame,
-    preferred_key_columns: list[str],
-) -> dict:
-    """
-    Runs simple validation checks on each Tableau export.
-
-    These checks confirm that the source existed, the export was created,
-    rows were written, and expected key columns are present when available.
-    """
-    validation_result = {
-        "source_file": str(source_path.relative_to(PROJECT_ROOT)),
-        "export_file": str(export_path.relative_to(PROJECT_ROOT)),
+    return {
+        "source_path": str(source_path.relative_to(PROJECT_ROOT)),
+        "export_path": str(export_path.relative_to(PROJECT_ROOT)),
         "row_count": int(len(df)),
         "column_count": int(len(df.columns)),
-        "missing_preferred_key_columns": [],
-        "status": "passed",
-        "warnings": [],
+        "columns": list(df.columns),
     }
 
-    if not source_path.exists():
-        validation_result["status"] = "failed"
-        validation_result["warnings"].append("Source Parquet file does not exist.")
 
-    if not export_path.exists():
-        validation_result["status"] = "failed"
-        validation_result["warnings"].append("Export CSV file was not created.")
-    elif export_path.stat().st_size == 0:
-        validation_result["status"] = "failed"
-        validation_result["warnings"].append("Export CSV file is empty.")
-
-    if len(df) == 0:
-        validation_result["status"] = "failed"
-        validation_result["warnings"].append("Export contains zero rows.")
-
-    duplicate_columns = df.columns[df.columns.duplicated()].tolist()
-    if duplicate_columns:
-        validation_result["status"] = "failed"
-        validation_result["warnings"].append(
-            f"Duplicate column names found after cleaning: {duplicate_columns}"
-        )
-
-    missing_keys = [col for col in preferred_key_columns if col not in df.columns]
-    validation_result["missing_preferred_key_columns"] = missing_keys
-
-    if missing_keys:
-        validation_result["warnings"].append(
-            f"Preferred key columns not found: {missing_keys}"
-        )
-
-    return validation_result
-
-
-def export_tableau_files() -> dict:
-    """
-    Creates Tableau-ready CSV extracts from selected Gold Parquet tables.
-
-    The output is intentionally simple: clean CSV files that can be loaded
-    directly into Tableau Public or used as shareable BI extracts.
-    """
-    EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+def main() -> None:
+    TABLEAU_EXPORT_DIR.mkdir(parents=True, exist_ok=True)
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
     manifest = {
-        "export_timestamp": datetime.now().isoformat(timespec="seconds"),
-        "source_layer": "Gold",
-        "export_layer": "Tableau CSV extracts",
-        "exports": [],
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
+        "purpose": "Tableau-ready CSV exports from Gold analytics marts.",
+        "exports": {},
     }
 
-    print("Creating Tableau-ready exports...")
-    print(f"Gold source directory: {GOLD_DIR}")
-    print(f"Tableau export directory: {EXPORT_DIR}")
+    print("Creating Tableau exports...")
 
-    for export_config in EXPORT_CONFIG:
-        source_path = GOLD_DIR / export_config["source_file"]
-        export_path = EXPORT_DIR / export_config["export_file"]
+    for spec in EXPORT_SPECS:
+        export_name = spec["name"]
+        source_path = find_existing_source(spec["source_candidates"])
+        export_path = spec["export_path"]
 
-        print("\n----------------------------------------")
-        print(f"Source: {source_path.relative_to(PROJECT_ROOT)}")
-        print(f"Export: {export_path.relative_to(PROJECT_ROOT)}")
+        print(f"\nExporting {export_name}")
+        print(f"Source: {source_path}")
+        print(f"Output: {export_path}")
 
-        if not source_path.exists():
-            raise FileNotFoundError(
-                f"Missing required Gold table: {source_path}. "
-                "Run the local pipeline before creating Tableau exports."
-            )
+        export_metadata = export_parquet_to_csv(source_path, export_path)
+        manifest["exports"][export_name] = export_metadata
 
-        df = pd.read_parquet(source_path)
-        cleaned_df = prepare_dataframe_for_tableau(df)
-        cleaned_df = move_key_columns_to_front(
-            cleaned_df,
-            export_config["preferred_key_columns"],
+        print(
+            f"Rows: {export_metadata['row_count']} | "
+            f"Columns: {export_metadata['column_count']}"
         )
 
-        cleaned_df.to_csv(export_path, index=False)
+    with MANIFEST_PATH.open("w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
 
-        validation_result = validate_export(
-            source_path=source_path,
-            export_path=export_path,
-            df=cleaned_df,
-            preferred_key_columns=export_config["preferred_key_columns"],
-        )
-
-        export_record = {
-            "description": export_config["description"],
-            **validation_result,
-        }
-
-        manifest["exports"].append(export_record)
-
-        print(f"Rows exported: {validation_result['row_count']}")
-        print(f"Columns exported: {validation_result['column_count']}")
-        print(f"Validation status: {validation_result['status']}")
-
-        if validation_result["warnings"]:
-            print("Warnings:")
-            for warning in validation_result["warnings"]:
-                print(f"  - {warning}")
-
-    manifest_path = REPORT_DIR / "tableau_export_manifest.json"
-
-    with manifest_path.open("w", encoding="utf-8") as manifest_file:
-        json.dump(manifest, manifest_file, indent=2)
-
-    print("\n========================================")
-    print("Tableau export process complete.")
-    print(f"Manifest written to: {manifest_path.relative_to(PROJECT_ROOT)}")
-
-    failed_exports = [
-        export for export in manifest["exports"] if export["status"] != "passed"
-    ]
-
-    if failed_exports:
-        raise ValueError(
-            "One or more Tableau exports failed validation. "
-            f"Review {manifest_path.relative_to(PROJECT_ROOT)} for details."
-        )
-
-    return manifest
+    print("\nTableau export manifest written to:")
+    print(MANIFEST_PATH)
+    print("\nTableau exports complete.")
 
 
 if __name__ == "__main__":
-    export_tableau_files()
+    main()

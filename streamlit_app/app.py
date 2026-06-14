@@ -10,7 +10,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 GOLD_DIR = PROJECT_ROOT / "data" / "gold"
 REPORTS_DIR = PROJECT_ROOT / "reports"
 REAL_WORLD_REPORTS_DIR = REPORTS_DIR / "real_world"
-
+REAL_WORLD_BRONZE_DIR = PROJECT_ROOT / "data" / "real_world" / "bronze"
+MIMIC_BRONZE_DIR = REAL_WORLD_BRONZE_DIR / "mimic_demo"
+CMS_PUF_BRONZE_DIR = REAL_WORLD_BRONZE_DIR / "cms_claims_puf"
 
 st.set_page_config(
     page_title="Healthcare Claims & EHR Lakehouse",
@@ -56,6 +58,57 @@ def format_number(value) -> str:
         return f"{value:,.2f}"
 
     return f"{value:,}"
+
+
+def count_report_tables(report: dict | None) -> int:
+    """
+    Count ingested/profiled tables from a report JSON using flexible key handling.
+
+    This keeps the Streamlit dashboard resilient if different ingestion/profile
+    scripts use slightly different metadata keys.
+    """
+    if not report:
+        return 0
+
+    list_or_dict_keys = [
+        "tables_ingested",
+        "ingested_tables",
+        "tables",
+        "table_metadata",
+        "outputs",
+        "files",
+    ]
+
+    for key in list_or_dict_keys:
+        value = report.get(key)
+
+        if isinstance(value, list):
+            return len(value)
+
+        if isinstance(value, dict):
+            return len(value)
+
+    count_keys = [
+        "tables_ingested_count",
+        "ingested_table_count",
+        "table_count",
+        "profiled_table_count",
+        "expected_table_count",
+    ]
+
+    for key in count_keys:
+        value = report.get(key)
+
+        if isinstance(value, int):
+            return value
+
+        if isinstance(value, float):
+            return int(value)
+
+        if isinstance(value, str) and value.isdigit():
+            return int(value)
+
+    return 0
 
 
 def show_missing_file_warning(label: str, path: Path) -> None:
@@ -105,6 +158,18 @@ def show_dataframe_section(title: str, df: pd.DataFrame, max_rows: int = 25) -> 
         return
 
     st.dataframe(df.head(max_rows), use_container_width=True)
+
+def count_bronze_parquet_tables(directory: Path) -> int:
+    """
+    Count actual ingested Bronze Parquet tables in a real-world data folder.
+
+    This is more reliable for dashboard KPI cards than depending on one specific
+    JSON report key name.
+    """
+    if not directory.exists():
+        return 0
+
+    return len(list(directory.glob("*.parquet")))
 
 
 # ---------------------------------------------------------------------
@@ -461,12 +526,12 @@ with real_world_tab:
     metric_col_1, metric_col_2, metric_col_3 = st.columns(3)
 
     with metric_col_1:
-        mimic_tables = mimic_ingestion_report.get("tables_ingested", [])
-        st.metric("MIMIC Tables Ingested", format_number(len(mimic_tables)))
+        mimic_table_count = count_bronze_parquet_tables(MIMIC_BRONZE_DIR)
+        st.metric("MIMIC Tables Ingested", format_number(mimic_table_count))
 
     with metric_col_2:
-        cms_tables = cms_ingestion_report.get("tables_ingested", [])
-        st.metric("CMS PUF Tables Ingested", format_number(len(cms_tables)))
+        cms_table_count = count_bronze_parquet_tables(CMS_PUF_BRONZE_DIR)
+        st.metric("CMS PUF Tables Ingested", format_number(cms_table_count))
 
     with metric_col_3:
         validation_available = bool(real_world_validation_markdown)

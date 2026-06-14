@@ -2,7 +2,7 @@
   "input_path": "data/gold/gold_patient_360.parquet",
   "profile_json_path": "reports/gold/patient_360_profile_report.json",
   "profile_markdown_path": "reports/gold/patient_360_profile_report.md",
-  "row_count": 3,
+  "row_count": 250,
   "column_count": 71,
   "patient_key_quality": {
     "patient_keys_found": [
@@ -11,911 +11,917 @@
       "crosswalk_method"
     ],
     "duplicate_patient_key_rows": 0,
-    "unique_patient_key_records": 3,
+    "unique_patient_key_records": 250,
     "message": "Patient key uniqueness check completed."
   },
   "business_field_counts": {
     "care_management_priority": {
-      "High priority": 3
+      "High priority": 94,
+      "Low priority": 86,
+      "Medium priority": 70
     },
     "utilization_segment": {
-      "Not enough variation": 3
+      "Low utilization": 119,
+      "High utilization": 80,
+      "Medium utilization": 51
     },
     "cost_segment": {
-      "Low cost": 1,
-      "Medium cost": 1,
-      "High cost": 1
+      "Low cost": 125,
+      "High cost": 63,
+      "Medium cost": 62
     },
     "age_band": {
-      "65+": 2,
-      "50-64": 1
+      "50-64": 94,
+      "65+": 72,
+      "35-49": 62,
+      "18-34": 22
     }
   },
   "important_numeric_fields": {
     "patient_360_total_utilization_events": {
-      "total": 12.0,
-      "mean": 4.0,
-      "min": 4.0,
-      "median": 4.0,
-      "max": 4.0
+      "total": 2798.0,
+      "mean": 11.19,
+      "min": 2.0,
+      "median": 8.0,
+      "max": 34.0
     },
     "patient_360_total_cost_proxy": {
-      "total": 67135.52,
-      "mean": 22378.51,
-      "min": 3948.3199999999997,
-      "median": 6512.6,
-      "max": 56674.6
+      "total": 14836222.37,
+      "mean": 59344.89,
+      "min": 546.0,
+      "median": 11869.625,
+      "max": 373741.519047619
     },
     "patient_360_condition_burden": {
-      "total": 17,
-      "mean": 5.67,
-      "min": 3,
+      "total": 1612.0,
+      "mean": 6.45,
+      "min": 0.0,
       "median": 4.0,
-      "max": 10
+      "max": 24.0
     }
   },
   "column_profile": {
     "ehr_patient_id": {
       "dtype": "string",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 250
     },
     "claim_beneficiary_id": {
       "dtype": "string",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 250
     },
     "crosswalk_method": {
       "dtype": "string",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 1
     },
     "age": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 60
     },
     "gender": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "race": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 4
     },
     "ethnicity": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "city": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 5
     },
     "state": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 1
     },
     "county": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 4
     },
     "zip_code": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 5
     },
     "sex_code": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "race_code": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 4
     },
     "state_code": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 1
     },
     "county_code": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 4
     },
     "is_deceased_ehr": {
       "dtype": "bool",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 1
     },
     "is_deceased_claims": {
       "dtype": "bool",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 1
     },
     "ehr_encounter_count": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 8
     },
     "ehr_total_encounter_cost": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 239
     },
     "ehr_avg_encounter_cost": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 238
     },
     "ehr_emergency_encounter_count": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 3
     },
     "ehr_outpatient_encounter_count": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 3
     },
     "ehr_ambulatory_encounter_count": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 4
     },
     "ehr_total_encounter_duration_hours": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 8
     },
     "inpatient_claim_count": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 4
     },
     "inpatient_total_paid": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 79
     },
     "inpatient_avg_paid": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 79
     },
     "inpatient_total_days": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 23
     },
     "outpatient_claim_count": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 9
     },
     "outpatient_total_paid": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 215
     },
     "outpatient_avg_paid": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 212
     },
     "total_claim_count": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 12
     },
     "total_claims_paid": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 220
     },
     "ehr_condition_count": {
-      "dtype": "int64",
+      "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 7
     },
     "ehr_active_condition_count": {
-      "dtype": "int64",
+      "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 7
     },
     "ehr_unique_condition_count": {
-      "dtype": "int64",
+      "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 7
     },
     "has_alzheimer_or_dementia": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 2
     },
     "has_chf": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "has_chronic_kidney_disease": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "has_cancer": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 2
     },
     "has_copd": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "has_depression": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "has_diabetes": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "has_ischemic_heart_disease": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "has_osteoporosis": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 2
     },
     "has_rheumatoid_or_osteoarthritis": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "has_stroke_or_tia": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 2
     },
     "chronic_condition_count": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 7
     },
     "medication_count": {
-      "dtype": "int64",
+      "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 7
     },
     "active_medication_count": {
-      "dtype": "int64",
+      "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 7
     },
     "unique_medication_count": {
-      "dtype": "int64",
+      "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 7
     },
     "total_medication_cost": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 96
     },
     "avg_medication_cost": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 97
     },
     "total_dispenses": {
-      "dtype": "int64",
+      "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 8
     },
     "observation_count": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 3
     },
     "unique_observation_count": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 3
     },
     "avg_observation_value": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 108
     },
     "max_observation_value": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 74
     },
     "inpatient_reimbursement_amount": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 79
     },
     "outpatient_reimbursement_amount": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 215
     },
     "carrier_reimbursement_amount": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 221
     },
     "total_annual_reimbursement_amount": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 232
     },
     "high_cost_patient_flag": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "care_management_candidate_flag": {
       "dtype": "int64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 2
     },
     "age_band": {
       "dtype": "string",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 2
+      "distinct_count": 4
     },
     "patient_360_total_utilization_events": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 17
     },
     "patient_360_total_cost_proxy": {
       "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 250
     },
     "patient_360_condition_burden": {
-      "dtype": "int64",
+      "dtype": "float64",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 3
+      "distinct_count": 13
     },
     "utilization_segment": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 3
     },
     "cost_segment": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
       "distinct_count": 3
     },
     "care_management_priority": {
       "dtype": "str",
       "null_count": 0,
-      "non_null_count": 3,
+      "non_null_count": 250,
       "null_percentage": 0.0,
-      "distinct_count": 1
+      "distinct_count": 3
     }
   },
   "numeric_summary": {
     "age": {
-      "count": 3,
-      "mean": 69.67,
-      "min": 63,
-      "median": 71.0,
-      "max": 75
+      "count": 250,
+      "mean": 56.18,
+      "min": 27,
+      "median": 57.0,
+      "max": 89
     },
     "ehr_encounter_count": {
-      "count": 3,
-      "mean": 1.0,
+      "count": 250,
+      "mean": 2.8,
       "min": 1,
-      "median": 1.0,
-      "max": 1
+      "median": 2.0,
+      "max": 8
     },
     "ehr_total_encounter_cost": {
-      "count": 3,
-      "mean": 1098.15,
-      "min": 129.16,
-      "median": 415.3,
-      "max": 2750.0
+      "count": 250,
+      "mean": 2575.84,
+      "min": 141.0,
+      "median": 867.0,
+      "max": 18032.0
     },
     "ehr_avg_encounter_cost": {
-      "count": 3,
-      "mean": 1098.15,
-      "min": 129.16,
-      "median": 415.3,
-      "max": 2750.0
+      "count": 250,
+      "mean": 674.96,
+      "min": 141.0,
+      "median": 536.25,
+      "max": 2378.25
     },
     "ehr_emergency_encounter_count": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.24,
       "min": 0,
       "median": 0.0,
-      "max": 1
+      "max": 2
     },
     "ehr_outpatient_encounter_count": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.55,
       "min": 0,
       "median": 0.0,
-      "max": 1
+      "max": 2
     },
     "ehr_ambulatory_encounter_count": {
-      "count": 3,
-      "mean": 0.33,
-      "min": 0,
-      "median": 0.0,
-      "max": 1
+      "count": 250,
+      "mean": 2.01,
+      "min": 1,
+      "median": 2.0,
+      "max": 4
     },
     "ehr_total_encounter_duration_hours": {
-      "count": 3,
-      "mean": 2.72,
-      "min": 0.6666666666666666,
-      "median": 1.0,
-      "max": 6.5
+      "count": 250,
+      "mean": 2.8,
+      "min": 1.0,
+      "median": 2.0,
+      "max": 8.0
     },
     "inpatient_claim_count": {
-      "count": 3,
-      "mean": 0.33,
-      "min": 0.0,
-      "median": 0.0,
-      "max": 1.0
-    },
-    "inpatient_total_paid": {
-      "count": 3,
-      "mean": 2833.33,
-      "min": 0.0,
-      "median": 0.0,
-      "max": 8500.0
-    },
-    "inpatient_avg_paid": {
-      "count": 3,
-      "mean": 2833.33,
-      "min": 0.0,
-      "median": 0.0,
-      "max": 8500.0
-    },
-    "inpatient_total_days": {
-      "count": 3,
-      "mean": 1.0,
+      "count": 250,
+      "mean": 0.49,
       "min": 0.0,
       "median": 0.0,
       "max": 3.0
     },
-    "outpatient_claim_count": {
-      "count": 3,
-      "mean": 0.67,
+    "inpatient_total_paid": {
+      "count": 250,
+      "mean": 7371.08,
       "min": 0.0,
-      "median": 1.0,
-      "max": 1.0
+      "median": 0.0,
+      "max": 65096.0
+    },
+    "inpatient_avg_paid": {
+      "count": 250,
+      "mean": 4244.16,
+      "min": 0.0,
+      "median": 0.0,
+      "max": 25238.0
+    },
+    "inpatient_total_days": {
+      "count": 250,
+      "mean": 2.79,
+      "min": 0.0,
+      "median": 0.0,
+      "max": 25.0
+    },
+    "outpatient_claim_count": {
+      "count": 250,
+      "mean": 2.31,
+      "min": 0.0,
+      "median": 2.0,
+      "max": 8.0
     },
     "outpatient_total_paid": {
-      "count": 3,
-      "mean": 483.33,
+      "count": 250,
+      "mean": 3918.51,
       "min": 0.0,
-      "median": 550.0,
-      "max": 900.0
+      "median": 1139.5,
+      "max": 24695.0
     },
     "outpatient_avg_paid": {
-      "count": 3,
-      "mean": 483.33,
+      "count": 250,
+      "mean": 1042.14,
       "min": 0.0,
-      "median": 550.0,
-      "max": 900.0
+      "median": 776.5,
+      "max": 4240.666666666667
     },
     "total_claim_count": {
-      "count": 3,
-      "mean": 1.0,
-      "min": 1.0,
-      "median": 1.0,
-      "max": 1.0
+      "count": 250,
+      "mean": 2.8,
+      "min": 0.0,
+      "median": 2.0,
+      "max": 11.0
     },
     "total_claims_paid": {
-      "count": 3,
-      "mean": 3316.67,
-      "min": 550.0,
-      "median": 900.0,
-      "max": 8500.0
+      "count": 250,
+      "mean": 11289.59,
+      "min": 0.0,
+      "median": 1314.0,
+      "max": 78019.0
     },
     "ehr_condition_count": {
-      "count": 3,
-      "mean": 1.0,
-      "min": 1,
+      "count": 250,
+      "mean": 1.65,
+      "min": 0.0,
       "median": 1.0,
-      "max": 1
+      "max": 6.0
     },
     "ehr_active_condition_count": {
-      "count": 3,
-      "mean": 1.0,
-      "min": 1,
+      "count": 250,
+      "mean": 1.65,
+      "min": 0.0,
       "median": 1.0,
-      "max": 1
+      "max": 6.0
     },
     "ehr_unique_condition_count": {
-      "count": 3,
-      "mean": 1.0,
-      "min": 1,
+      "count": 250,
+      "mean": 1.65,
+      "min": 0.0,
       "median": 1.0,
-      "max": 1
+      "max": 6.0
     },
     "has_alzheimer_or_dementia": {
-      "count": 3,
-      "mean": 0.0,
+      "count": 250,
+      "mean": 0.08,
       "min": 0,
       "median": 0.0,
-      "max": 0
+      "max": 1
     },
     "has_chf": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.1,
       "min": 0,
       "median": 0.0,
       "max": 1
     },
     "has_chronic_kidney_disease": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.18,
       "min": 0,
       "median": 0.0,
       "max": 1
     },
     "has_cancer": {
-      "count": 3,
-      "mean": 0.0,
+      "count": 250,
+      "mean": 0.08,
       "min": 0,
       "median": 0.0,
-      "max": 0
+      "max": 1
     },
     "has_copd": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.13,
       "min": 0,
       "median": 0.0,
       "max": 1
     },
     "has_depression": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.2,
       "min": 0,
       "median": 0.0,
       "max": 1
     },
     "has_diabetes": {
-      "count": 3,
-      "mean": 0.67,
+      "count": 250,
+      "mean": 0.14,
       "min": 0,
-      "median": 1.0,
+      "median": 0.0,
       "max": 1
     },
     "has_ischemic_heart_disease": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.16,
       "min": 0,
       "median": 0.0,
       "max": 1
     },
     "has_osteoporosis": {
-      "count": 3,
-      "mean": 0.0,
+      "count": 250,
+      "mean": 0.21,
       "min": 0,
       "median": 0.0,
-      "max": 0
+      "max": 1
     },
     "has_rheumatoid_or_osteoarthritis": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.15,
       "min": 0,
       "median": 0.0,
       "max": 1
     },
     "has_stroke_or_tia": {
-      "count": 3,
-      "mean": 0.0,
+      "count": 250,
+      "mean": 0.07,
       "min": 0,
       "median": 0.0,
-      "max": 0
+      "max": 1
     },
     "chronic_condition_count": {
-      "count": 3,
-      "mean": 2.67,
+      "count": 250,
+      "mean": 1.49,
       "min": 0,
       "median": 1.0,
-      "max": 7
+      "max": 6
     },
     "medication_count": {
-      "count": 3,
-      "mean": 1.0,
-      "min": 1,
+      "count": 250,
+      "mean": 1.65,
+      "min": 0.0,
       "median": 1.0,
-      "max": 1
+      "max": 6.0
     },
     "active_medication_count": {
-      "count": 3,
-      "mean": 1.0,
-      "min": 1,
+      "count": 250,
+      "mean": 1.65,
+      "min": 0.0,
       "median": 1.0,
-      "max": 1
+      "max": 6.0
     },
     "unique_medication_count": {
-      "count": 3,
-      "mean": 1.0,
-      "min": 1,
+      "count": 250,
+      "mean": 1.65,
+      "min": 0.0,
       "median": 1.0,
-      "max": 1
+      "max": 6.0
     },
     "total_medication_cost": {
-      "count": 3,
-      "mean": 132.6,
-      "min": 111.0,
-      "median": 136.8,
-      "max": 150.0
+      "count": 250,
+      "mean": 278.1,
+      "min": 0.0,
+      "median": 84.9,
+      "max": 1200.6
     },
     "avg_medication_cost": {
-      "count": 3,
-      "mean": 132.6,
-      "min": 111.0,
-      "median": 136.8,
-      "max": 150.0
+      "count": 250,
+      "mean": 100.63,
+      "min": 0.0,
+      "median": 84.9,
+      "max": 458.4
     },
     "total_dispenses": {
-      "count": 3,
-      "mean": 12.0,
-      "min": 12,
-      "median": 12.0,
-      "max": 12
+      "count": 250,
+      "mean": 18.79,
+      "min": 0.0,
+      "median": 9.0,
+      "max": 72.0
     },
     "observation_count": {
-      "count": 3,
-      "mean": 1.0,
-      "min": 1,
-      "median": 1.0,
-      "max": 1
+      "count": 250,
+      "mean": 2.42,
+      "min": 2,
+      "median": 2.0,
+      "max": 4
     },
     "unique_observation_count": {
-      "count": 3,
-      "mean": 1.0,
-      "min": 1,
-      "median": 1.0,
-      "max": 1
+      "count": 250,
+      "mean": 2.42,
+      "min": 2,
+      "median": 2.0,
+      "max": 4
     },
     "avg_observation_value": {
-      "count": 3,
-      "mean": 367.7,
-      "min": 8.1,
-      "median": 145.0,
-      "max": 950.0
+      "count": 250,
+      "mean": 89.19,
+      "min": 48.175,
+      "median": 72.66666666666667,
+      "max": 304.0
     },
     "max_observation_value": {
-      "count": 3,
-      "mean": 367.7,
-      "min": 8.1,
-      "median": 145.0,
-      "max": 950.0
+      "count": 250,
+      "mean": 178.32,
+      "min": 111.0,
+      "median": 124.5,
+      "max": 721.0
     },
     "inpatient_reimbursement_amount": {
-      "count": 3,
-      "mean": 2833.33,
+      "count": 250,
+      "mean": 7371.08,
       "min": 0,
       "median": 0.0,
-      "max": 8500
+      "max": 65096
     },
     "outpatient_reimbursement_amount": {
-      "count": 3,
-      "mean": 1283.33,
-      "min": 550,
-      "median": 900.0,
-      "max": 2400
+      "count": 250,
+      "mean": 3918.51,
+      "min": 0,
+      "median": 1139.5,
+      "max": 24695
     },
     "carrier_reimbursement_amount": {
-      "count": 3,
-      "mean": 866.67,
-      "min": 320,
-      "median": 480.0,
-      "max": 1800
+      "count": 250,
+      "mean": 2635.1,
+      "min": 0,
+      "median": 904.0,
+      "max": 19852
     },
     "total_annual_reimbursement_amount": {
-      "count": 3,
-      "mean": 4983.33,
-      "min": 870,
-      "median": 1380.0,
-      "max": 12700
+      "count": 250,
+      "mean": 13924.69,
+      "min": 0,
+      "median": 2428.0,
+      "max": 96015
     },
     "high_cost_patient_flag": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.5,
       "min": 0,
-      "median": 0.0,
+      "median": 0.5,
       "max": 1
     },
     "care_management_candidate_flag": {
-      "count": 3,
-      "mean": 0.33,
+      "count": 250,
+      "mean": 0.46,
       "min": 0,
       "median": 0.0,
       "max": 1
     },
     "patient_360_total_utilization_events": {
-      "count": 3,
-      "mean": 4.0,
-      "min": 4.0,
-      "median": 4.0,
-      "max": 4.0
+      "count": 250,
+      "mean": 11.19,
+      "min": 2.0,
+      "median": 8.0,
+      "max": 34.0
     },
     "patient_360_total_cost_proxy": {
-      "count": 3,
-      "mean": 22378.51,
-      "min": 3948.3199999999997,
-      "median": 6512.6,
-      "max": 56674.6
+      "count": 250,
+      "mean": 59344.89,
+      "min": 546.0,
+      "median": 11869.625,
+      "max": 373741.519047619
     },
     "patient_360_condition_burden": {
-      "count": 3,
-      "mean": 5.67,
-      "min": 3,
+      "count": 250,
+      "mean": 6.45,
+      "min": 0.0,
       "median": 4.0,
-      "max": 10
+      "max": 24.0
     }
   },
   "source_build_report_available": true,
   "source_build_report": {
     "output_path": "data/gold/gold_patient_360.parquet",
-    "output_rows": 3,
+    "output_rows": 250,
     "output_columns": 71,
     "patient_keys": [
       "ehr_patient_id",
@@ -924,32 +930,32 @@
     ],
     "source_tables": {
       "patient_master": {
-        "rows": 3,
+        "rows": 250,
         "columns": 17,
         "available": true
       },
       "utilization_summary": {
-        "rows": 3,
+        "rows": 250,
         "columns": 19,
         "available": true
       },
       "condition_summary": {
-        "rows": 3,
+        "rows": 250,
         "columns": 18,
         "available": true
       },
       "medication_summary": {
-        "rows": 3,
+        "rows": 250,
         "columns": 9,
         "available": true
       },
       "observation_summary": {
-        "rows": 3,
+        "rows": 250,
         "columns": 7,
         "available": true
       },
       "patient_risk_features": {
-        "rows": 3,
+        "rows": 250,
         "columns": 64,
         "available": true
       }
