@@ -1,0 +1,149 @@
+{
+  "pipeline_name": "cms_claims_puf_bronze_profile",
+  "dataset": "CMS Basic Stand Alone Medicare Claims Public Use Files",
+  "profile_timestamp_utc": "2026-06-14T01:40:58.439127+00:00",
+  "bronze_directory": "data/real_world/bronze/cms_claims_puf",
+  "expected_table_count": 1,
+  "profiled_table_count": 1,
+  "tables_passing_basic_checks": 1,
+  "missing_tables": [],
+  "tables": [
+    {
+      "table_name": "inpatient_claims",
+      "description": "CMS Basic Stand Alone Medicare Claims PUF - 2008 Inpatient Claims",
+      "expected_claim_type": "inpatient",
+      "expected_source_year": "2008",
+      "row_count": 588415,
+      "column_count": 12,
+      "columns": [
+        "ip_clm_id",
+        "bene_sex_ident_cd",
+        "bene_age_cat_cd",
+        "ip_clm_base_drg_cd",
+        "ip_clm_icd9_prcdr_cd",
+        "ip_clm_days_cd",
+        "ip_drg_quint_pmt_avg",
+        "ip_drg_quint_pmt_cd",
+        "_source_file",
+        "_claim_type",
+        "_source_year",
+        "_ingestion_timestamp_utc"
+      ],
+      "duplicate_row_count": 0,
+      "total_missing_values": 276546,
+      "columns_with_missing_values": [
+        {
+          "column": "ip_clm_icd9_prcdr_cd",
+          "missing_count": 276546,
+          "missing_pct": 47.0
+        }
+      ],
+      "candidate_columns": {
+        "diagnosis_columns": [
+          "ip_clm_icd9_prcdr_cd"
+        ],
+        "procedure_columns": [
+          "ip_clm_icd9_prcdr_cd"
+        ],
+        "payment_or_cost_columns": [
+          "ip_drg_quint_pmt_avg",
+          "ip_drg_quint_pmt_cd"
+        ],
+        "date_columns": [
+          "_source_year"
+        ],
+        "provider_columns": [],
+        "metadata_columns": [
+          "_source_file",
+          "_claim_type",
+          "_source_year",
+          "_ingestion_timestamp_utc"
+        ]
+      },
+      "top_value_summaries": {
+        "bene_sex_ident_cd": {
+          "unique_count": 2,
+          "top_values": {
+            "2": 330198,
+            "1": 258217
+          }
+        },
+        "bene_age_cat_cd": {
+          "unique_count": 6,
+          "top_values": {
+            "6": 122287,
+            "1": 116080,
+            "5": 94759,
+            "4": 91487,
+            "3": 86205
+          }
+        },
+        "ip_clm_days_cd": {
+          "unique_count": 4,
+          "top_values": {
+            "2": 261419,
+            "4": 128898,
+            "3": 122073,
+            "1": 76025
+          }
+        },
+        "ip_drg_quint_pmt_cd": {
+          "unique_count": 5,
+          "top_values": {
+            "2": 118387,
+            "5": 118218,
+            "3": 117659,
+            "1": 117509,
+            "4": 116642
+          }
+        }
+      },
+      "sample_rows": [
+        {
+          "ip_clm_id": "IP-000022CE4125DBE7",
+          "bene_sex_ident_cd": "2",
+          "bene_age_cat_cd": "4",
+          "ip_clm_base_drg_cd": "3",
+          "ip_clm_icd9_prcdr_cd": "31",
+          "ip_clm_days_cd": "4",
+          "ip_drg_quint_pmt_avg": "86240",
+          "ip_drg_quint_pmt_cd": "4",
+          "_source_file": "2008_BSA_Inpatient_Claims_PUF.csv",
+          "_claim_type": "inpatient",
+          "_source_year": "2008",
+          "_ingestion_timestamp_utc": "2026-06-14T01:38:21.064452+00:00"
+        },
+        {
+          "ip_clm_id": "IP-0000417F50942D90",
+          "bene_sex_ident_cd": "2",
+          "bene_age_cat_cd": "5",
+          "ip_clm_base_drg_cd": "199",
+          "ip_clm_icd9_prcdr_cd": "",
+          "ip_clm_days_cd": "2",
+          "ip_drg_quint_pmt_avg": "3447",
+          "ip_drg_quint_pmt_cd": "2",
+          "_source_file": "2008_BSA_Inpatient_Claims_PUF.csv",
+          "_claim_type": "inpatient",
+          "_source_year": "2008",
+          "_ingestion_timestamp_utc": "2026-06-14T01:38:21.064452+00:00"
+        },
+        {
+          "ip_clm_id": "IP-0000865F5457AC0E",
+          "bene_sex_ident_cd": "1",
+          "bene_age_cat_cd": "1",
+          "ip_clm_base_drg_cd": "119",
+          "ip_clm_icd9_prcdr_cd": "54",
+          "ip_clm_days_cd": "4",
+          "ip_drg_quint_pmt_avg": "34878",
+          "ip_drg_quint_pmt_cd": "5",
+          "_source_file": "2008_BSA_Inpatient_Claims_PUF.csv",
+          "_claim_type": "inpatient",
+          "_source_year": "2008",
+          "_ingestion_timestamp_utc": "2026-06-14T01:38:21.064452+00:00"
+        }
+      ],
+      "metadata_columns_present": true,
+      "passed_basic_checks": true
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "pipeline_name": "cms_claims_puf_bronze_ingestion",
+  "dataset": "CMS Basic Stand Alone Medicare Claims Public Use Files",
+  "ingestion_timestamp_utc": "2026-06-14T01:38:21.064452+00:00",
+  "raw_directory": "data/real_world/raw/cms_claims_puf",
+  "bronze_directory": "data/real_world/bronze/cms_claims_puf",
+  "tables": [
+    {
+      "table_name": "inpatient_claims",
+      "dataset_name": "CMS Basic Stand Alone Medicare Claims PUF - Inpatient Claims",
+      "claim_type": "inpatient",
+      "source_year": "2008",
+      "source_path": "data/real_world/raw/cms_claims_puf/inpatient/2008_BSA_Inpatient_Claims_PUF.csv",
+      "bronze_path": "data/real_world/bronze/cms_claims_puf/inpatient_claims.parquet",
+      "row_count": 588415,
+      "column_count": 12,
+      "columns": [
+        "ip_clm_id",
+        "bene_sex_ident_cd",
+        "bene_age_cat_cd",
+        "ip_clm_base_drg_cd",
+        "ip_clm_icd9_prcdr_cd",
+        "ip_clm_days_cd",
+        "ip_drg_quint_pmt_avg",
+        "ip_drg_quint_pmt_cd",
+        "_source_file",
+        "_claim_type",
+        "_source_year",
+        "_ingestion_timestamp_utc"
+      ]
+    }
+  ],
+  "missing_files": []
+}
