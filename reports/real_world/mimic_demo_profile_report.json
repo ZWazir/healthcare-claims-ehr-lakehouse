@@ -1,0 +1,751 @@
+{
+  "pipeline_name": "mimic_demo_bronze_profile",
+  "dataset": "MIMIC-IV Clinical Database Demo",
+  "dataset_version": "2.2",
+  "profile_timestamp_utc": "2026-06-14T01:24:24.961547+00:00",
+  "bronze_directory": "data/real_world/bronze/mimic_demo",
+  "expected_table_count": 9,
+  "profiled_table_count": 9,
+  "tables_passing_basic_checks": 9,
+  "missing_tables": [],
+  "tables": [
+    {
+      "table_name": "patients",
+      "row_count": 100,
+      "column_count": 6,
+      "columns": [
+        "subject_id",
+        "gender",
+        "anchor_age",
+        "anchor_year",
+        "anchor_year_group",
+        "dod"
+      ],
+      "required_columns": [
+        "subject_id",
+        "gender",
+        "anchor_age",
+        "anchor_year",
+        "anchor_year_group"
+      ],
+      "missing_required_columns": [],
+      "duplicate_row_count": 0,
+      "total_missing_values": 69,
+      "columns_with_missing_values": [
+        {
+          "column": "dod",
+          "missing_count": 69,
+          "missing_pct": 69.0
+        }
+      ],
+      "sample_rows": [
+        {
+          "subject_id": "10014729",
+          "gender": "F",
+          "anchor_age": "21",
+          "anchor_year": "2125",
+          "anchor_year_group": "2011 - 2013",
+          "dod": ""
+        },
+        {
+          "subject_id": "10003400",
+          "gender": "F",
+          "anchor_age": "72",
+          "anchor_year": "2134",
+          "anchor_year_group": "2011 - 2013",
+          "dod": "2137-09-02"
+        },
+        {
+          "subject_id": "10002428",
+          "gender": "F",
+          "anchor_age": "80",
+          "anchor_year": "2155",
+          "anchor_year_group": "2011 - 2013",
+          "dod": ""
+        }
+      ],
+      "passed_basic_checks": true
+    },
+    {
+      "table_name": "admissions",
+      "row_count": 275,
+      "column_count": 16,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "admittime",
+        "dischtime",
+        "deathtime",
+        "admission_type",
+        "admit_provider_id",
+        "admission_location",
+        "discharge_location",
+        "insurance",
+        "language",
+        "marital_status",
+        "race",
+        "edregtime",
+        "edouttime",
+        "hospital_expire_flag"
+      ],
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "admittime",
+        "dischtime",
+        "admission_type",
+        "race"
+      ],
+      "missing_required_columns": [],
+      "duplicate_row_count": 0,
+      "total_missing_values": 500,
+      "columns_with_missing_values": [
+        {
+          "column": "deathtime",
+          "missing_count": 260,
+          "missing_pct": 94.55
+        },
+        {
+          "column": "discharge_location",
+          "missing_count": 42,
+          "missing_pct": 15.27
+        },
+        {
+          "column": "marital_status",
+          "missing_count": 12,
+          "missing_pct": 4.36
+        },
+        {
+          "column": "edregtime",
+          "missing_count": 93,
+          "missing_pct": 33.82
+        },
+        {
+          "column": "edouttime",
+          "missing_count": 93,
+          "missing_pct": 33.82
+        }
+      ],
+      "sample_rows": [
+        {
+          "subject_id": "10004235",
+          "hadm_id": "24181354",
+          "admittime": "2196-02-24 14:38:00",
+          "dischtime": "2196-03-04 14:02:00",
+          "deathtime": "",
+          "admission_type": "URGENT",
+          "admit_provider_id": "P03YMR",
+          "admission_location": "TRANSFER FROM HOSPITAL",
+          "discharge_location": "SKILLED NURSING FACILITY",
+          "insurance": "Medicaid",
+          "language": "ENGLISH",
+          "marital_status": "SINGLE",
+          "race": "BLACK/CAPE VERDEAN",
+          "edregtime": "2196-02-24 12:15:00",
+          "edouttime": "2196-02-24 17:07:00",
+          "hospital_expire_flag": "0"
+        },
+        {
+          "subject_id": "10009628",
+          "hadm_id": "25926192",
+          "admittime": "2153-09-17 17:08:00",
+          "dischtime": "2153-09-25 13:20:00",
+          "deathtime": "",
+          "admission_type": "URGENT",
+          "admit_provider_id": "P41R5N",
+          "admission_location": "TRANSFER FROM HOSPITAL",
+          "discharge_location": "HOME HEALTH CARE",
+          "insurance": "Medicaid",
+          "language": "?",
+          "marital_status": "MARRIED",
+          "race": "HISPANIC/LATINO - PUERTO RICAN",
+          "edregtime": "",
+          "edouttime": "",
+          "hospital_expire_flag": "0"
+        },
+        {
+          "subject_id": "10018081",
+          "hadm_id": "23983182",
+          "admittime": "2134-08-18 02:02:00",
+          "dischtime": "2134-08-23 19:35:00",
+          "deathtime": "",
+          "admission_type": "URGENT",
+          "admit_provider_id": "P233F6",
+          "admission_location": "TRANSFER FROM HOSPITAL",
+          "discharge_location": "SKILLED NURSING FACILITY",
+          "insurance": "Medicare",
+          "language": "ENGLISH",
+          "marital_status": "MARRIED",
+          "race": "WHITE",
+          "edregtime": "2134-08-17 16:24:00",
+          "edouttime": "2134-08-18 03:15:00",
+          "hospital_expire_flag": "0"
+        }
+      ],
+      "passed_basic_checks": true
+    },
+    {
+      "table_name": "diagnoses_icd",
+      "row_count": 4506,
+      "column_count": 5,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "seq_num",
+        "icd_code",
+        "icd_version"
+      ],
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "seq_num",
+        "icd_code",
+        "icd_version"
+      ],
+      "missing_required_columns": [],
+      "duplicate_row_count": 0,
+      "total_missing_values": 0,
+      "columns_with_missing_values": [],
+      "sample_rows": [
+        {
+          "subject_id": "10035185",
+          "hadm_id": "22580999",
+          "seq_num": "3",
+          "icd_code": "4139",
+          "icd_version": "9"
+        },
+        {
+          "subject_id": "10035185",
+          "hadm_id": "22580999",
+          "seq_num": "10",
+          "icd_code": "V707",
+          "icd_version": "9"
+        },
+        {
+          "subject_id": "10035185",
+          "hadm_id": "22580999",
+          "seq_num": "1",
+          "icd_code": "41401",
+          "icd_version": "9"
+        }
+      ],
+      "passed_basic_checks": true
+    },
+    {
+      "table_name": "procedures_icd",
+      "row_count": 722,
+      "column_count": 6,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "seq_num",
+        "chartdate",
+        "icd_code",
+        "icd_version"
+      ],
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "seq_num",
+        "icd_code",
+        "icd_version"
+      ],
+      "missing_required_columns": [],
+      "duplicate_row_count": 0,
+      "total_missing_values": 0,
+      "columns_with_missing_values": [],
+      "sample_rows": [
+        {
+          "subject_id": "10011398",
+          "hadm_id": "27505812",
+          "seq_num": "3",
+          "chartdate": "2146-12-15",
+          "icd_code": "3961",
+          "icd_version": "9"
+        },
+        {
+          "subject_id": "10011398",
+          "hadm_id": "27505812",
+          "seq_num": "2",
+          "chartdate": "2146-12-15",
+          "icd_code": "3615",
+          "icd_version": "9"
+        },
+        {
+          "subject_id": "10011398",
+          "hadm_id": "27505812",
+          "seq_num": "1",
+          "chartdate": "2146-12-15",
+          "icd_code": "3614",
+          "icd_version": "9"
+        }
+      ],
+      "passed_basic_checks": true
+    },
+    {
+      "table_name": "d_icd_diagnoses",
+      "row_count": 109775,
+      "column_count": 3,
+      "columns": [
+        "icd_code",
+        "icd_version",
+        "long_title"
+      ],
+      "required_columns": [
+        "icd_code",
+        "icd_version",
+        "long_title"
+      ],
+      "missing_required_columns": [],
+      "duplicate_row_count": 0,
+      "total_missing_values": 0,
+      "columns_with_missing_values": [],
+      "sample_rows": [
+        {
+          "icd_code": "0090",
+          "icd_version": "9",
+          "long_title": "Infectious colitis, enteritis, and gastroenteritis"
+        },
+        {
+          "icd_code": "01160",
+          "icd_version": "9",
+          "long_title": "Tuberculous pneumonia [any form], unspecified"
+        },
+        {
+          "icd_code": "01186",
+          "icd_version": "9",
+          "long_title": "Other specified pulmonary tuberculosis, tubercle bacilli not found by bacteriological or histological examination, but tuberculosis confirmed by other methods [inoculation of animals]"
+        }
+      ],
+      "passed_basic_checks": true
+    },
+    {
+      "table_name": "d_icd_procedures",
+      "row_count": 85257,
+      "column_count": 3,
+      "columns": [
+        "icd_code",
+        "icd_version",
+        "long_title"
+      ],
+      "required_columns": [
+        "icd_code",
+        "icd_version",
+        "long_title"
+      ],
+      "missing_required_columns": [],
+      "duplicate_row_count": 0,
+      "total_missing_values": 0,
+      "columns_with_missing_values": [],
+      "sample_rows": [
+        {
+          "icd_code": "0039",
+          "icd_version": "9",
+          "long_title": "Other computer assisted surgery"
+        },
+        {
+          "icd_code": "0048",
+          "icd_version": "9",
+          "long_title": "Insertion of four or more vascular stents"
+        },
+        {
+          "icd_code": "0074",
+          "icd_version": "9",
+          "long_title": "Hip bearing surface, metal-on-polyethylene"
+        }
+      ],
+      "passed_basic_checks": true
+    },
+    {
+      "table_name": "labevents",
+      "row_count": 107727,
+      "column_count": 16,
+      "columns": [
+        "labevent_id",
+        "subject_id",
+        "hadm_id",
+        "specimen_id",
+        "itemid",
+        "order_provider_id",
+        "charttime",
+        "storetime",
+        "value",
+        "valuenum",
+        "valueuom",
+        "ref_range_lower",
+        "ref_range_upper",
+        "flag",
+        "priority",
+        "comments"
+      ],
+      "required_columns": [
+        "labevent_id",
+        "subject_id",
+        "itemid",
+        "charttime"
+      ],
+      "missing_required_columns": [],
+      "duplicate_row_count": 0,
+      "total_missing_values": 362091,
+      "columns_with_missing_values": [
+        {
+          "column": "hadm_id",
+          "missing_count": 28420,
+          "missing_pct": 26.38
+        },
+        {
+          "column": "order_provider_id",
+          "missing_count": 90897,
+          "missing_pct": 84.38
+        },
+        {
+          "column": "storetime",
+          "missing_count": 992,
+          "missing_pct": 0.92
+        },
+        {
+          "column": "value",
+          "missing_count": 9588,
+          "missing_pct": 8.9
+        },
+        {
+          "column": "valuenum",
+          "missing_count": 12481,
+          "missing_pct": 11.59
+        },
+        {
+          "column": "valueuom",
+          "missing_count": 16203,
+          "missing_pct": 15.04
+        },
+        {
+          "column": "ref_range_lower",
+          "missing_count": 18728,
+          "missing_pct": 17.38
+        },
+        {
+          "column": "ref_range_upper",
+          "missing_count": 18728,
+          "missing_pct": 17.38
+        },
+        {
+          "column": "flag",
+          "missing_count": 67452,
+          "missing_pct": 62.61
+        },
+        {
+          "column": "priority",
+          "missing_count": 9329,
+          "missing_pct": 8.66
+        },
+        {
+          "column": "comments",
+          "missing_count": 89273,
+          "missing_pct": 82.87
+        }
+      ],
+      "sample_rows": [
+        {
+          "labevent_id": "172061",
+          "subject_id": "10014354",
+          "hadm_id": "29600294",
+          "specimen_id": "1808066",
+          "itemid": "51277",
+          "order_provider_id": "",
+          "charttime": "2148-08-16 00:00:00",
+          "storetime": "2148-08-16 01:30:00",
+          "value": "15.4",
+          "valuenum": "15.4",
+          "valueuom": "%",
+          "ref_range_lower": "10.5",
+          "ref_range_upper": "15.5",
+          "flag": "",
+          "priority": "ROUTINE",
+          "comments": ""
+        },
+        {
+          "labevent_id": "172062",
+          "subject_id": "10014354",
+          "hadm_id": "29600294",
+          "specimen_id": "1808066",
+          "itemid": "51279",
+          "order_provider_id": "",
+          "charttime": "2148-08-16 00:00:00",
+          "storetime": "2148-08-16 01:30:00",
+          "value": "3.35",
+          "valuenum": "3.35",
+          "valueuom": "m/uL",
+          "ref_range_lower": "4.6",
+          "ref_range_upper": "6.1",
+          "flag": "abnormal",
+          "priority": "ROUTINE",
+          "comments": ""
+        },
+        {
+          "labevent_id": "172068",
+          "subject_id": "10014354",
+          "hadm_id": "29600294",
+          "specimen_id": "1808066",
+          "itemid": "52172",
+          "order_provider_id": "",
+          "charttime": "2148-08-16 00:00:00",
+          "storetime": "2148-08-16 01:30:00",
+          "value": "49.7",
+          "valuenum": "49.7",
+          "valueuom": "fL",
+          "ref_range_lower": "35.1",
+          "ref_range_upper": "46.3",
+          "flag": "abnormal",
+          "priority": "ROUTINE",
+          "comments": ""
+        }
+      ],
+      "passed_basic_checks": true
+    },
+    {
+      "table_name": "prescriptions",
+      "row_count": 18087,
+      "column_count": 21,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "pharmacy_id",
+        "poe_id",
+        "poe_seq",
+        "order_provider_id",
+        "starttime",
+        "stoptime",
+        "drug_type",
+        "drug",
+        "formulary_drug_cd",
+        "gsn",
+        "ndc",
+        "prod_strength",
+        "form_rx",
+        "dose_val_rx",
+        "dose_unit_rx",
+        "form_val_disp",
+        "form_unit_disp",
+        "doses_per_24_hrs",
+        "route"
+      ],
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "pharmacy_id",
+        "drug"
+      ],
+      "missing_required_columns": [],
+      "duplicate_row_count": 0,
+      "total_missing_values": 28405,
+      "columns_with_missing_values": [
+        {
+          "column": "poe_id",
+          "missing_count": 118,
+          "missing_pct": 0.65
+        },
+        {
+          "column": "poe_seq",
+          "missing_count": 118,
+          "missing_pct": 0.65
+        },
+        {
+          "column": "order_provider_id",
+          "missing_count": 94,
+          "missing_pct": 0.52
+        },
+        {
+          "column": "stoptime",
+          "missing_count": 14,
+          "missing_pct": 0.08
+        },
+        {
+          "column": "formulary_drug_cd",
+          "missing_count": 12,
+          "missing_pct": 0.07
+        },
+        {
+          "column": "gsn",
+          "missing_count": 2519,
+          "missing_pct": 13.93
+        },
+        {
+          "column": "ndc",
+          "missing_count": 21,
+          "missing_pct": 0.12
+        },
+        {
+          "column": "prod_strength",
+          "missing_count": 9,
+          "missing_pct": 0.05
+        },
+        {
+          "column": "form_rx",
+          "missing_count": 18075,
+          "missing_pct": 99.93
+        },
+        {
+          "column": "dose_val_rx",
+          "missing_count": 9,
+          "missing_pct": 0.05
+        },
+        {
+          "column": "dose_unit_rx",
+          "missing_count": 9,
+          "missing_pct": 0.05
+        },
+        {
+          "column": "form_val_disp",
+          "missing_count": 9,
+          "missing_pct": 0.05
+        },
+        {
+          "column": "form_unit_disp",
+          "missing_count": 9,
+          "missing_pct": 0.05
+        },
+        {
+          "column": "doses_per_24_hrs",
+          "missing_count": 7383,
+          "missing_pct": 40.82
+        },
+        {
+          "column": "route",
+          "missing_count": 6,
+          "missing_pct": 0.03
+        }
+      ],
+      "sample_rows": [
+        {
+          "subject_id": "10027602",
+          "hadm_id": "28166872",
+          "pharmacy_id": "27168639",
+          "poe_id": "",
+          "poe_seq": "",
+          "order_provider_id": "",
+          "starttime": "2201-10-30 12:00:00",
+          "stoptime": "",
+          "drug_type": "MAIN",
+          "drug": "Fentanyl Citrate",
+          "formulary_drug_cd": "FENT2I",
+          "gsn": "",
+          "ndc": "",
+          "prod_strength": "",
+          "form_rx": "",
+          "dose_val_rx": "",
+          "dose_unit_rx": "",
+          "form_val_disp": "",
+          "form_unit_disp": "",
+          "doses_per_24_hrs": "",
+          "route": ""
+        },
+        {
+          "subject_id": "10027602",
+          "hadm_id": "28166872",
+          "pharmacy_id": "40720238",
+          "poe_id": "",
+          "poe_seq": "",
+          "order_provider_id": "",
+          "starttime": "2201-10-30 12:00:00",
+          "stoptime": "",
+          "drug_type": "MAIN",
+          "drug": "Fentanyl Citrate",
+          "formulary_drug_cd": "FENT2I",
+          "gsn": "",
+          "ndc": "",
+          "prod_strength": "",
+          "form_rx": "",
+          "dose_val_rx": "",
+          "dose_unit_rx": "",
+          "form_val_disp": "",
+          "form_unit_disp": "",
+          "doses_per_24_hrs": "",
+          "route": ""
+        },
+        {
+          "subject_id": "10027602",
+          "hadm_id": "28166872",
+          "pharmacy_id": "62845687",
+          "poe_id": "",
+          "poe_seq": "",
+          "order_provider_id": "",
+          "starttime": "2201-10-31 12:00:00",
+          "stoptime": "",
+          "drug_type": "MAIN",
+          "drug": "Lorazepam",
+          "formulary_drug_cd": "LORA2I",
+          "gsn": "",
+          "ndc": "",
+          "prod_strength": "",
+          "form_rx": "",
+          "dose_val_rx": "",
+          "dose_unit_rx": "",
+          "form_val_disp": "",
+          "form_unit_disp": "",
+          "doses_per_24_hrs": "",
+          "route": ""
+        }
+      ],
+      "passed_basic_checks": true
+    },
+    {
+      "table_name": "icustays",
+      "row_count": 140,
+      "column_count": 8,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "stay_id",
+        "first_careunit",
+        "last_careunit",
+        "intime",
+        "outtime",
+        "los"
+      ],
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "stay_id",
+        "intime",
+        "outtime"
+      ],
+      "missing_required_columns": [],
+      "duplicate_row_count": 0,
+      "total_missing_values": 0,
+      "columns_with_missing_values": [],
+      "sample_rows": [
+        {
+          "subject_id": "10018328",
+          "hadm_id": "23786647",
+          "stay_id": "31269608",
+          "first_careunit": "Neuro Stepdown",
+          "last_careunit": "Neuro Stepdown",
+          "intime": "2154-04-24 23:03:44",
+          "outtime": "2154-05-02 15:55:21",
+          "los": "7.7025115740740739"
+        },
+        {
+          "subject_id": "10020187",
+          "hadm_id": "24104168",
+          "stay_id": "37509585",
+          "first_careunit": "Neuro Surgical Intensive Care Unit (Neuro SICU)",
+          "last_careunit": "Neuro Stepdown",
+          "intime": "2169-01-15 04:56:00",
+          "outtime": "2169-01-20 15:47:50",
+          "los": "5.4526620370370367"
+        },
+        {
+          "subject_id": "10020187",
+          "hadm_id": "26842957",
+          "stay_id": "32554129",
+          "first_careunit": "Neuro Intermediate",
+          "last_careunit": "Neuro Intermediate",
+          "intime": "2170-02-24 18:18:46",
+          "outtime": "2170-02-25 15:15:26",
+          "los": "0.87268518518518523"
+        }
+      ],
+      "passed_basic_checks": true
+    }
+  ]
+}

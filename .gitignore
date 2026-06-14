@@ -32,4 +32,10 @@ logs/
 # dbt artifacts
 data/dbt/
 dbt/healthcare_claims/target/
-dbt/healthcare_claims/dbt_packages/
+dbt/healthcare_claims/dbt_packages/data/real_world/raw/
+data/real_world/bronze/
+
+# Real-world public healthcare datasets
+# Keep downloaded public datasets and generated Bronze Parquet files out of Git.
+data/real_world/raw/**
+data/real_world/bronze/**

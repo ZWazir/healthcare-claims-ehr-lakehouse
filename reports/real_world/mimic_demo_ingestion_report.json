@@ -1,0 +1,176 @@
+{
+  "pipeline_name": "mimic_demo_bronze_ingestion",
+  "dataset": "MIMIC-IV Clinical Database Demo",
+  "dataset_version": "2.2",
+  "ingestion_timestamp_utc": "2026-06-14T01:22:17.362220+00:00",
+  "raw_directory": "data/real_world/raw/mimic_demo",
+  "bronze_directory": "data/real_world/bronze/mimic_demo",
+  "tables": [
+    {
+      "table_name": "patients",
+      "source_path": "data/real_world/raw/mimic_demo/hosp/patients.csv.gz",
+      "bronze_path": "data/real_world/bronze/mimic_demo/patients.parquet",
+      "row_count": 100,
+      "column_count": 6,
+      "columns": [
+        "subject_id",
+        "gender",
+        "anchor_age",
+        "anchor_year",
+        "anchor_year_group",
+        "dod"
+      ]
+    },
+    {
+      "table_name": "admissions",
+      "source_path": "data/real_world/raw/mimic_demo/hosp/admissions.csv.gz",
+      "bronze_path": "data/real_world/bronze/mimic_demo/admissions.parquet",
+      "row_count": 275,
+      "column_count": 16,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "admittime",
+        "dischtime",
+        "deathtime",
+        "admission_type",
+        "admit_provider_id",
+        "admission_location",
+        "discharge_location",
+        "insurance",
+        "language",
+        "marital_status",
+        "race",
+        "edregtime",
+        "edouttime",
+        "hospital_expire_flag"
+      ]
+    },
+    {
+      "table_name": "diagnoses_icd",
+      "source_path": "data/real_world/raw/mimic_demo/hosp/diagnoses_icd.csv.gz",
+      "bronze_path": "data/real_world/bronze/mimic_demo/diagnoses_icd.parquet",
+      "row_count": 4506,
+      "column_count": 5,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "seq_num",
+        "icd_code",
+        "icd_version"
+      ]
+    },
+    {
+      "table_name": "procedures_icd",
+      "source_path": "data/real_world/raw/mimic_demo/hosp/procedures_icd.csv.gz",
+      "bronze_path": "data/real_world/bronze/mimic_demo/procedures_icd.parquet",
+      "row_count": 722,
+      "column_count": 6,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "seq_num",
+        "chartdate",
+        "icd_code",
+        "icd_version"
+      ]
+    },
+    {
+      "table_name": "d_icd_diagnoses",
+      "source_path": "data/real_world/raw/mimic_demo/hosp/d_icd_diagnoses.csv.gz",
+      "bronze_path": "data/real_world/bronze/mimic_demo/d_icd_diagnoses.parquet",
+      "row_count": 109775,
+      "column_count": 3,
+      "columns": [
+        "icd_code",
+        "icd_version",
+        "long_title"
+      ]
+    },
+    {
+      "table_name": "d_icd_procedures",
+      "source_path": "data/real_world/raw/mimic_demo/hosp/d_icd_procedures.csv.gz",
+      "bronze_path": "data/real_world/bronze/mimic_demo/d_icd_procedures.parquet",
+      "row_count": 85257,
+      "column_count": 3,
+      "columns": [
+        "icd_code",
+        "icd_version",
+        "long_title"
+      ]
+    },
+    {
+      "table_name": "labevents",
+      "source_path": "data/real_world/raw/mimic_demo/hosp/labevents.csv.gz",
+      "bronze_path": "data/real_world/bronze/mimic_demo/labevents.parquet",
+      "row_count": 107727,
+      "column_count": 16,
+      "columns": [
+        "labevent_id",
+        "subject_id",
+        "hadm_id",
+        "specimen_id",
+        "itemid",
+        "order_provider_id",
+        "charttime",
+        "storetime",
+        "value",
+        "valuenum",
+        "valueuom",
+        "ref_range_lower",
+        "ref_range_upper",
+        "flag",
+        "priority",
+        "comments"
+      ]
+    },
+    {
+      "table_name": "prescriptions",
+      "source_path": "data/real_world/raw/mimic_demo/hosp/prescriptions.csv.gz",
+      "bronze_path": "data/real_world/bronze/mimic_demo/prescriptions.parquet",
+      "row_count": 18087,
+      "column_count": 21,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "pharmacy_id",
+        "poe_id",
+        "poe_seq",
+        "order_provider_id",
+        "starttime",
+        "stoptime",
+        "drug_type",
+        "drug",
+        "formulary_drug_cd",
+        "gsn",
+        "ndc",
+        "prod_strength",
+        "form_rx",
+        "dose_val_rx",
+        "dose_unit_rx",
+        "form_val_disp",
+        "form_unit_disp",
+        "doses_per_24_hrs",
+        "route"
+      ]
+    },
+    {
+      "table_name": "icustays",
+      "source_path": "data/real_world/raw/mimic_demo/icu/icustays.csv.gz",
+      "bronze_path": "data/real_world/bronze/mimic_demo/icustays.parquet",
+      "row_count": 140,
+      "column_count": 8,
+      "columns": [
+        "subject_id",
+        "hadm_id",
+        "stay_id",
+        "first_careunit",
+        "last_careunit",
+        "intime",
+        "outtime",
+        "los"
+      ]
+    }
+  ],
+  "missing_files": []
+}
