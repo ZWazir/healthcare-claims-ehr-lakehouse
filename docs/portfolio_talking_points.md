@@ -94,7 +94,7 @@ Created dbt models/tests, Snowflake loading and validation scripts, Databricks D
 Published a Tableau Public dashboard from the Patient 360 Gold mart:
 
 **Healthcare Patient 360 Analytics Dashboard**
-https://public.tableau.com/app/profile/zafar.wazir/viz/HealthcareClaimsEHRLakehouseReport/Dashboard1?publish=yes
+https://public.tableau.com/views/HealthcareClaimsEHRLakehouseReport/HealthcarePatient360AnalyticsDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
 
 The dashboard presents a recruiter-facing healthcare analytics view built from the synthetic linked EHR + claims pipeline. It includes:
 

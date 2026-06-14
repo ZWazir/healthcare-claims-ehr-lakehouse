@@ -30,7 +30,7 @@ A recruiter-facing Tableau Public dashboard has been published for the Patient 3
 Synthetic EHR + Claims Lakehouse | Patient Risk, Utilization, and Care Management View
 
 **Live Dashboard:**
-https://public.tableau.com/app/profile/zafar.wazir/viz/HealthcareClaimsEHRLakehouseReport/Dashboard1?publish=yes
+https://public.tableau.com/views/HealthcareClaimsEHRLakehouseReport/HealthcarePatient360AnalyticsDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
 
 The dashboard summarizes synthetic linked EHR and claims data transformed through the lakehouse pipeline into patient-level care management insights. It includes:
 
