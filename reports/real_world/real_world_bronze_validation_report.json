@@ -1,0 +1,209 @@
+{
+  "pipeline_name": "real_world_bronze_validation",
+  "validation_timestamp_utc": "2026-06-14T01:45:49.512135+00:00",
+  "bronze_directory": "data/real_world/bronze",
+  "table_results": [
+    {
+      "source_group": "MIMIC-IV Demo",
+      "relative_path": "data/real_world/bronze/mimic_demo/patients.parquet",
+      "exists": true,
+      "row_count": 100,
+      "column_count": 6,
+      "required_columns": [
+        "subject_id",
+        "gender",
+        "anchor_age"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_group": "MIMIC-IV Demo",
+      "relative_path": "data/real_world/bronze/mimic_demo/admissions.parquet",
+      "exists": true,
+      "row_count": 275,
+      "column_count": 16,
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "admittime",
+        "dischtime"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_group": "MIMIC-IV Demo",
+      "relative_path": "data/real_world/bronze/mimic_demo/diagnoses_icd.parquet",
+      "exists": true,
+      "row_count": 4506,
+      "column_count": 5,
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "icd_code",
+        "icd_version"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_group": "MIMIC-IV Demo",
+      "relative_path": "data/real_world/bronze/mimic_demo/procedures_icd.parquet",
+      "exists": true,
+      "row_count": 722,
+      "column_count": 6,
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "icd_code",
+        "icd_version"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_group": "MIMIC-IV Demo",
+      "relative_path": "data/real_world/bronze/mimic_demo/d_icd_diagnoses.parquet",
+      "exists": true,
+      "row_count": 109775,
+      "column_count": 3,
+      "required_columns": [
+        "icd_code",
+        "icd_version",
+        "long_title"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_group": "MIMIC-IV Demo",
+      "relative_path": "data/real_world/bronze/mimic_demo/d_icd_procedures.parquet",
+      "exists": true,
+      "row_count": 85257,
+      "column_count": 3,
+      "required_columns": [
+        "icd_code",
+        "icd_version",
+        "long_title"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_group": "MIMIC-IV Demo",
+      "relative_path": "data/real_world/bronze/mimic_demo/labevents.parquet",
+      "exists": true,
+      "row_count": 107727,
+      "column_count": 16,
+      "required_columns": [
+        "labevent_id",
+        "subject_id",
+        "itemid",
+        "charttime"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_group": "MIMIC-IV Demo",
+      "relative_path": "data/real_world/bronze/mimic_demo/prescriptions.parquet",
+      "exists": true,
+      "row_count": 18087,
+      "column_count": 21,
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "drug"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_group": "MIMIC-IV Demo",
+      "relative_path": "data/real_world/bronze/mimic_demo/icustays.parquet",
+      "exists": true,
+      "row_count": 140,
+      "column_count": 8,
+      "required_columns": [
+        "subject_id",
+        "hadm_id",
+        "stay_id",
+        "intime",
+        "outtime"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    },
+    {
+      "source_group": "CMS Claims PUF",
+      "relative_path": "data/real_world/bronze/cms_claims_puf/inpatient_claims.parquet",
+      "exists": true,
+      "row_count": 588415,
+      "column_count": 12,
+      "required_columns": [
+        "_source_file",
+        "_claim_type",
+        "_source_year",
+        "_ingestion_timestamp_utc"
+      ],
+      "missing_required_columns": [],
+      "passed": true,
+      "error": null
+    }
+  ],
+  "report_results": [
+    {
+      "relative_path": "reports/real_world/mimic_demo_ingestion_report.json",
+      "exists": true,
+      "size_bytes": 4722,
+      "passed": true
+    },
+    {
+      "relative_path": "reports/real_world/mimic_demo_profile_report.json",
+      "exists": true,
+      "size_bytes": 19762,
+      "passed": true
+    },
+    {
+      "relative_path": "reports/real_world/mimic_demo_profile_report.md",
+      "exists": true,
+      "size_bytes": 5295,
+      "passed": true
+    },
+    {
+      "relative_path": "reports/real_world/cms_claims_puf_ingestion_report.json",
+      "exists": true,
+      "size_bytes": 1158,
+      "passed": true
+    },
+    {
+      "relative_path": "reports/real_world/cms_claims_puf_profile_report.json",
+      "exists": true,
+      "size_bytes": 4400,
+      "passed": true
+    },
+    {
+      "relative_path": "reports/real_world/cms_claims_puf_profile_report.md",
+      "exists": true,
+      "size_bytes": 2883,
+      "passed": true
+    }
+  ],
+  "total_table_checks": 10,
+  "passed_table_checks": 10,
+  "failed_table_checks": 0,
+  "total_report_checks": 6,
+  "passed_report_checks": 6,
+  "failed_report_checks": 0,
+  "overall_passed": true
+}

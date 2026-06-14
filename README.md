@@ -98,6 +98,98 @@ Raw CSV / Source Files              Raw CSV / Source Files
           Bronze Delta -> Silver Delta -> Gold Delta
 ```
 
+## Real-World Public Data Ingestion Extension
+
+Version 1.1 adds a real-world/public healthcare data ingestion extension to the original synthetic linked EHR + claims lakehouse.
+
+The v1.0 pipeline remains the main fully reproducible end-to-end demo because it uses synthetic patient-level EHR and claims records that can be linked safely inside the project. The v1.1 extension adds separate public data ingestion workflows for real deidentified clinical data and public Medicare claims data.
+
+### Public Data Sources Added in v1.1
+
+#### MIMIC-IV Clinical Database Demo
+
+The project now includes an ingestion workflow for the MIMIC-IV Clinical Database Demo, a real deidentified EHR demo dataset published through PhysioNet.
+
+This workflow ingests selected compressed CSV files from the MIMIC demo into local Parquet Bronze tables under the real-world data extension.
+
+Selected MIMIC demo tables include:
+
+* patients
+* admissions
+* diagnoses_icd
+* procedures_icd
+* d_icd_diagnoses
+* d_icd_procedures
+* labevents
+* prescriptions
+* icustays
+
+#### CMS Basic Stand Alone Medicare Claims Public Use Files
+
+The project also includes an ingestion workflow for the CMS Basic Stand Alone Medicare Claims Public Use Files.
+
+The first CMS ingestion milestone focuses on the 2008 Inpatient Claims PUF. This public claims file is ingested into a separate real-world Bronze claims table and profiled independently from the MIMIC demo EHR data.
+
+### Important Design Decision
+
+The MIMIC-IV demo and CMS Medicare Claims PUF data are not linked in this project.
+
+These datasets come from different sources, different populations, and different deidentification processes. The project does not attempt to join MIMIC patients to CMS claims records.
+
+Instead, the project demonstrates two complementary patterns:
+
+1. A fully reproducible synthetic linked EHR + claims lakehouse
+2. Separate real-world/public ingestion tracks for EHR-style and claims-style healthcare data
+
+This keeps the analytics design responsible while still demonstrating the ability to ingest and profile realistic public healthcare datasets.
+
+### Real-World Extension Folder Structure
+
+```text
+data/real_world/
+├── raw/
+│   ├── mimic_demo/
+│   └── cms_claims_puf/
+├── bronze/
+│   ├── mimic_demo/
+│   └── cms_claims_puf/
+reports/real_world/
+scripts/real_world/
+```
+
+The downloaded raw files and generated Bronze Parquet outputs are intentionally excluded from Git. The repository tracks the ingestion scripts, profile scripts, validation scripts, and generated reports.
+
+### Real-World Ingestion Scripts
+
+```text
+scripts/real_world/ingest_mimic_demo.py
+scripts/real_world/profile_mimic_demo.py
+scripts/real_world/ingest_cms_claims_puf.py
+scripts/real_world/profile_cms_claims_puf.py
+scripts/real_world/validate_real_world_bronze.py
+```
+
+### Real-World Reports
+
+```text
+reports/real_world/mimic_demo_ingestion_report.json
+reports/real_world/mimic_demo_profile_report.json
+reports/real_world/mimic_demo_profile_report.md
+reports/real_world/cms_claims_puf_ingestion_report.json
+reports/real_world/cms_claims_puf_profile_report.json
+reports/real_world/cms_claims_puf_profile_report.md
+reports/real_world/real_world_bronze_validation_report.json
+reports/real_world/real_world_bronze_validation_report.md
+```
+
+### Portfolio Value
+
+This extension strengthens the project by showing that the lakehouse design can support both synthetic linked healthcare data and real public healthcare data.
+
+The synthetic pipeline demonstrates the complete end-to-end architecture from raw data through Bronze, Silver, Gold, BI exports, dbt models, Snowflake loading, and PyTorch modeling.
+
+The real-world extension demonstrates practical public-data ingestion, profiling, validation, and documentation using realistic healthcare schemas.
+
 ## Tech Stack
 
 ### Data Engineering
