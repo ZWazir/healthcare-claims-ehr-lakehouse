@@ -1,0 +1,77 @@
+{
+  "output_path": "data/gold/gold_patient_360.parquet",
+  "output_rows": 3,
+  "output_columns": 71,
+  "patient_keys": [
+    "ehr_patient_id",
+    "claim_beneficiary_id",
+    "crosswalk_method"
+  ],
+  "source_tables": {
+    "patient_master": {
+      "rows": 3,
+      "columns": 17,
+      "available": true
+    },
+    "utilization_summary": {
+      "rows": 3,
+      "columns": 19,
+      "available": true
+    },
+    "condition_summary": {
+      "rows": 3,
+      "columns": 18,
+      "available": true
+    },
+    "medication_summary": {
+      "rows": 3,
+      "columns": 9,
+      "available": true
+    },
+    "observation_summary": {
+      "rows": 3,
+      "columns": 7,
+      "available": true
+    },
+    "patient_risk_features": {
+      "rows": 3,
+      "columns": 64,
+      "available": true
+    }
+  },
+  "derived_columns_added": [
+    "age_band",
+    "patient_360_total_utilization_events",
+    "patient_360_total_cost_proxy",
+    "patient_360_condition_burden",
+    "utilization_segment",
+    "cost_segment",
+    "care_management_priority"
+  ],
+  "utilization_columns_used": [
+    "ehr_encounter_count",
+    "ehr_emergency_encounter_count",
+    "ehr_outpatient_encounter_count",
+    "ehr_ambulatory_encounter_count",
+    "inpatient_claim_count",
+    "outpatient_claim_count",
+    "total_claim_count"
+  ],
+  "cost_columns_used": [
+    "ehr_total_encounter_cost",
+    "ehr_avg_encounter_cost",
+    "inpatient_total_paid",
+    "inpatient_avg_paid",
+    "outpatient_total_paid",
+    "outpatient_avg_paid",
+    "total_claims_paid",
+    "total_medication_cost",
+    "avg_medication_cost",
+    "inpatient_reimbursement_amount",
+    "outpatient_reimbursement_amount",
+    "carrier_reimbursement_amount",
+    "total_annual_reimbursement_amount",
+    "high_cost_patient_flag",
+    "patient_360_total_cost_proxy"
+  ]
+}

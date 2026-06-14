@@ -1,21 +1,15 @@
 from pathlib import Path
+import json
+
 import pandas as pd
 import streamlit as st
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
 GOLD_DIR = PROJECT_ROOT / "data" / "gold"
-
-
-GOLD_TABLES = {
-    "Patient Crosswalk": "gold_patient_crosswalk.parquet",
-    "Patient Master": "gold_patient_master.parquet",
-    "Condition Summary": "gold_condition_summary.parquet",
-    "Utilization Summary": "gold_utilization_summary.parquet",
-    "Medication Summary": "gold_medication_summary.parquet",
-    "Observation Summary": "gold_observation_summary.parquet",
-    "Patient Risk Features": "gold_patient_risk_features.parquet",
-}
+REPORTS_DIR = PROJECT_ROOT / "reports"
+REAL_WORLD_REPORTS_DIR = REPORTS_DIR / "real_world"
 
 
 st.set_page_config(
@@ -25,513 +19,518 @@ st.set_page_config(
 )
 
 
+# ---------------------------------------------------------------------
+# Shared helpers
+# ---------------------------------------------------------------------
+
 @st.cache_data
-def load_gold_table(file_name: str) -> pd.DataFrame:
-    """
-    Load a Gold layer Parquet table.
-
-    Streamlit caches this function so the app does not reload the same
-    data from disk every time the user interacts with the dashboard.
-    """
-
-    file_path = GOLD_DIR / file_name
-
-    if not file_path.exists():
+def read_parquet_if_exists(path: Path) -> pd.DataFrame:
+    if not path.exists():
         return pd.DataFrame()
 
-    return pd.read_parquet(file_path)
+    return pd.read_parquet(path)
 
 
-def load_all_gold_tables() -> dict[str, pd.DataFrame]:
-    """
-    Load all expected Gold tables into a dictionary.
+@st.cache_data
+def read_json_if_exists(path: Path) -> dict:
+    if not path.exists():
+        return {}
 
-    The dictionary keys are friendly table names used in the dashboard.
-    """
-
-    return {
-        table_label: load_gold_table(file_name)
-        for table_label, file_name in GOLD_TABLES.items()
-    }
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
-def get_table_status(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
-    """
-    Create a summary showing whether each Gold table is available.
+@st.cache_data
+def read_markdown_if_exists(path: Path) -> str:
+    if not path.exists():
+        return ""
 
-    This helps users quickly confirm that the local pipeline produced
-    the expected analytics outputs.
-    """
-
-    status_records = []
-
-    for table_label, file_name in GOLD_TABLES.items():
-        df = tables[table_label]
-        file_path = GOLD_DIR / file_name
-
-        status_records.append(
-            {
-                "table_name": table_label,
-                "file_name": file_name,
-                "exists": file_path.exists(),
-                "rows": len(df),
-                "columns": len(df.columns),
-            }
-        )
-
-    return pd.DataFrame(status_records)
+    return path.read_text(encoding="utf-8")
 
 
-def find_column(df: pd.DataFrame, candidates: list[str]) -> str | None:
-    """
-    Find the first matching column from a list of possible column names.
+def format_number(value) -> str:
+    if pd.isna(value):
+        return "0"
 
-    This makes the dashboard more resilient if column names change slightly
-    during development.
-    """
+    if isinstance(value, float):
+        return f"{value:,.2f}"
 
-    lower_to_original = {column.lower(): column for column in df.columns}
+    return f"{value:,}"
 
-    for candidate in candidates:
-        if candidate.lower() in lower_to_original:
-            return lower_to_original[candidate.lower()]
+
+def show_missing_file_warning(label: str, path: Path) -> None:
+    st.warning(
+        f"{label} was not found at `{path.relative_to(PROJECT_ROOT)}`. "
+        "Run the relevant pipeline script to generate it."
+    )
+
+
+def find_column(df: pd.DataFrame, possible_names: list[str]) -> str | None:
+    lower_to_original = {col.lower(): col for col in df.columns}
+
+    for name in possible_names:
+        if name.lower() in lower_to_original:
+            return lower_to_original[name.lower()]
 
     return None
 
 
-def get_numeric_columns(df: pd.DataFrame) -> list[str]:
-    """
-    Return numeric columns from a DataFrame.
-    """
+def find_numeric_columns(
+    df: pd.DataFrame,
+    include_terms: list[str],
+    exclude_terms: list[str] | None = None,
+) -> list[str]:
+    exclude_terms = exclude_terms or []
+    numeric_cols = df.select_dtypes(include="number").columns.tolist()
 
-    return df.select_dtypes(include="number").columns.tolist()
+    matched = []
+
+    for col in numeric_cols:
+        col_lower = col.lower()
+
+        include_match = any(term in col_lower for term in include_terms)
+        exclude_match = any(term in col_lower for term in exclude_terms)
+
+        if include_match and not exclude_match:
+            matched.append(col)
+
+    return matched
 
 
-def get_categorical_columns(df: pd.DataFrame) -> list[str]:
-    """
-    Return likely categorical columns from a DataFrame.
-    """
-
-    return df.select_dtypes(include=["object", "category", "bool"]).columns.tolist()
-
-
-def display_table_preview(df: pd.DataFrame, table_name: str) -> None:
-    """
-    Display a standard preview section for a selected Gold table.
-    """
-
-    st.subheader(f"{table_name} Preview")
+def show_dataframe_section(title: str, df: pd.DataFrame, max_rows: int = 25) -> None:
+    st.subheader(title)
 
     if df.empty:
-        st.warning(f"No data available for {table_name}. Run the local pipeline first.")
+        st.info("No data available for this section yet.")
         return
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.metric("Rows", f"{len(df):,}")
-
-    with col2:
-        st.metric("Columns", f"{len(df.columns):,}")
-
-    st.dataframe(df.head(50), use_container_width=True)
+    st.dataframe(df.head(max_rows), use_container_width=True)
 
 
-def display_distribution_chart(df: pd.DataFrame, column: str) -> None:
-    """
-    Display a simple distribution chart for a selected column.
+# ---------------------------------------------------------------------
+# Data loading
+# ---------------------------------------------------------------------
 
-    For numeric columns with many distinct values, the values are binned.
-    For categorical columns, value counts are shown.
-    """
+patient_master = read_parquet_if_exists(GOLD_DIR / "gold_patient_master.parquet")
+utilization_summary = read_parquet_if_exists(GOLD_DIR / "gold_utilization_summary.parquet")
+condition_summary = read_parquet_if_exists(GOLD_DIR / "gold_condition_summary.parquet")
+patient_risk_features = read_parquet_if_exists(GOLD_DIR / "gold_patient_risk_features.parquet")
+patient_360 = read_parquet_if_exists(GOLD_DIR / "gold_patient_360.parquet")
 
-    if df.empty or column not in df.columns:
-        return
-
-    series = df[column].dropna()
-
-    if series.empty:
-        st.info(f"No non-null values available for {column}.")
-        return
-
-    if pd.api.types.is_numeric_dtype(series):
-        if series.nunique() > 20:
-            binned = pd.cut(series, bins=10)
-            chart_data = binned.value_counts().sort_index()
-            chart_data.index = chart_data.index.astype(str)
-        else:
-            chart_data = series.value_counts().sort_index()
-
-        st.bar_chart(chart_data)
-    else:
-        chart_data = series.value_counts().head(20)
-        st.bar_chart(chart_data)
+patient_360_report = read_json_if_exists(REPORTS_DIR / "gold" / "patient_360_build_report.json")
+mimic_ingestion_report = read_json_if_exists(REAL_WORLD_REPORTS_DIR / "mimic_demo_ingestion_report.json")
+mimic_profile_markdown = read_markdown_if_exists(REAL_WORLD_REPORTS_DIR / "mimic_demo_profile_report.md")
+cms_ingestion_report = read_json_if_exists(REAL_WORLD_REPORTS_DIR / "cms_claims_puf_ingestion_report.json")
+cms_profile_markdown = read_markdown_if_exists(REAL_WORLD_REPORTS_DIR / "cms_claims_puf_profile_report.md")
+real_world_validation_markdown = read_markdown_if_exists(
+    REAL_WORLD_REPORTS_DIR / "real_world_bronze_validation_report.md"
+)
 
 
-def display_overview_page(tables: dict[str, pd.DataFrame]) -> None:
-    """
-    Display the main dashboard overview page.
-    """
+# ---------------------------------------------------------------------
+# App header
+# ---------------------------------------------------------------------
 
-    st.header("Lakehouse Overview")
+st.title("Healthcare Claims & EHR Lakehouse")
+st.caption(
+    "Portfolio project demonstrating a healthcare medallion architecture with "
+    "synthetic linked EHR + claims data, BI-ready marts, ML-ready features, "
+    "Snowflake/dbt integration, Databricks migration artifacts, and public-data ingestion extensions."
+)
 
-    table_status = get_table_status(tables)
-
-    patient_master = tables["Patient Master"]
-    risk_features = tables["Patient Risk Features"]
-
-    patient_id_col = find_column(
-        patient_master,
-        ["patient_id", "person_id", "member_id", "beneficiary_id"],
-    )
-
-    if patient_id_col:
-        patient_count = patient_master[patient_id_col].nunique()
-    else:
-        patient_count = len(patient_master)
-
-    total_gold_rows = table_status["rows"].sum()
-    available_tables = table_status["exists"].sum()
-
-    col1, col2, col3, col4 = st.columns(4)
-
-    with col1:
-        st.metric("Gold Tables Available", f"{available_tables}/{len(GOLD_TABLES)}")
-
-    with col2:
-        st.metric("Total Gold Rows", f"{total_gold_rows:,}")
-
-    with col3:
-        st.metric("Patients", f"{patient_count:,}")
-
-    with col4:
-        st.metric("Risk Feature Rows", f"{len(risk_features):,}")
-
-    st.subheader("Gold Table Status")
-    st.dataframe(table_status, use_container_width=True)
-
-    st.subheader("Patient Demographics")
-
-    if patient_master.empty:
-        st.warning("Patient master table is empty or missing.")
-        return
-
-    demographic_candidates = [
-        ["gender", "sex"],
-        ["race"],
-        ["ethnicity"],
+overview_tab, patient_360_tab, real_world_tab = st.tabs(
+    [
+        "Synthetic Lakehouse Dashboard",
+        "Patient 360",
+        "Real-World Public Data Extension",
     ]
+)
 
-    available_demo_columns = []
 
-    for candidates in demographic_candidates:
-        matched_column = find_column(patient_master, candidates)
-        if matched_column:
-            available_demo_columns.append(matched_column)
+# ---------------------------------------------------------------------
+# Synthetic Lakehouse Dashboard
+# ---------------------------------------------------------------------
 
-    if not available_demo_columns:
-        st.info("No demographic columns found in the patient master table.")
-        return
+with overview_tab:
+    st.header("Synthetic Linked EHR + Claims Lakehouse")
 
-    selected_demo_column = st.selectbox(
-        "Select demographic field",
-        available_demo_columns,
+    st.write(
+        """
+        This dashboard summarizes the main synthetic linked pipeline. The synthetic data
+        remains the core end-to-end patient-level analytics workflow because those EHR
+        and claims records are intentionally linkable through the project crosswalk.
+        """
     )
 
-    display_distribution_chart(patient_master, selected_demo_column)
+    metric_col_1, metric_col_2, metric_col_3, metric_col_4 = st.columns(4)
+
+    with metric_col_1:
+        st.metric("Patients", format_number(len(patient_master)))
+
+    with metric_col_2:
+        st.metric("Utilization Rows", format_number(len(utilization_summary)))
+
+    with metric_col_3:
+        st.metric("Condition Rows", format_number(len(condition_summary)))
+
+    with metric_col_4:
+        st.metric("ML Feature Rows", format_number(len(patient_risk_features)))
+
+    st.divider()
+
+    chart_col_1, chart_col_2 = st.columns(2)
+
+    with chart_col_1:
+        st.subheader("Patient Demographics")
+
+        if patient_master.empty:
+            show_missing_file_warning(
+                "Gold patient master",
+                GOLD_DIR / "gold_patient_master.parquet",
+            )
+        else:
+            gender_col = find_column(patient_master, ["gender", "sex", "sex_code"])
+            age_col = find_column(patient_master, ["age"])
+
+            if gender_col:
+                gender_counts = (
+                    patient_master[gender_col]
+                    .fillna("Unknown")
+                    .value_counts()
+                    .reset_index()
+                )
+                gender_counts.columns = [gender_col, "patient_count"]
+                st.bar_chart(gender_counts, x=gender_col, y="patient_count")
+
+            if age_col:
+                st.write("Age summary")
+                st.dataframe(
+                    patient_master[[age_col]].describe().T,
+                    use_container_width=True,
+                )
+
+    with chart_col_2:
+        st.subheader("Utilization Overview")
+
+        if utilization_summary.empty:
+            show_missing_file_warning(
+                "Gold utilization summary",
+                GOLD_DIR / "gold_utilization_summary.parquet",
+            )
+        else:
+            utilization_cols = find_numeric_columns(
+                utilization_summary,
+                include_terms=["encounter_count", "claim_count", "admission_count", "visit_count"],
+                exclude_terms=["condition", "medication", "observation"],
+            )
+
+            if utilization_cols:
+                utilization_totals = (
+                    utilization_summary[utilization_cols]
+                    .fillna(0)
+                    .sum()
+                    .sort_values(ascending=False)
+                    .reset_index()
+                )
+                utilization_totals.columns = ["metric", "value"]
+                st.bar_chart(utilization_totals, x="metric", y="value")
+            else:
+                st.info("No utilization count columns found.")
+
+    st.divider()
+
+    show_dataframe_section("Gold Patient Master Preview", patient_master)
+    show_dataframe_section("Gold Patient Risk Features Preview", patient_risk_features)
 
 
-def display_utilization_page(tables: dict[str, pd.DataFrame]) -> None:
-    """
-    Display utilization-focused analytics.
-    """
+# ---------------------------------------------------------------------
+# Patient 360
+# ---------------------------------------------------------------------
 
-    st.header("Utilization Summary")
+with patient_360_tab:
+    st.header("Patient 360 Executive View")
 
-    df = tables["Utilization Summary"]
-    display_table_preview(df, "Utilization Summary")
-
-    if df.empty:
-        return
-
-    numeric_columns = get_numeric_columns(df)
-
-    if not numeric_columns:
-        st.info("No numeric utilization columns available for charting.")
-        return
-
-    selected_metric = st.selectbox(
-        "Select utilization metric",
-        numeric_columns,
+    st.write(
+        """
+        Patient 360 combines demographics, utilization, conditions, risk features,
+        and dashboard-friendly segments into a single Gold mart. This is designed
+        for executive review, care-management storytelling, and BI consumption.
+        """
     )
 
-    patient_id_col = find_column(
-        df,
-        ["patient_id", "person_id", "member_id", "beneficiary_id"],
-    )
-
-    st.subheader(f"Top Records by {selected_metric}")
-
-    if patient_id_col:
-        chart_df = (
-            df[[patient_id_col, selected_metric]]
-            .dropna()
-            .sort_values(selected_metric, ascending=False)
-            .head(20)
-            .set_index(patient_id_col)
+    if patient_360.empty:
+        show_missing_file_warning(
+            "Gold Patient 360",
+            GOLD_DIR / "gold_patient_360.parquet",
         )
-        st.bar_chart(chart_df)
     else:
-        display_distribution_chart(df, selected_metric)
+        metric_col_1, metric_col_2, metric_col_3, metric_col_4 = st.columns(4)
+
+        with metric_col_1:
+            st.metric("Patient 360 Rows", format_number(len(patient_360)))
+
+        with metric_col_2:
+            st.metric("Patient 360 Columns", format_number(len(patient_360.columns)))
+
+        with metric_col_3:
+            priority_col = find_column(patient_360, ["care_management_priority"])
+
+            if priority_col:
+                high_priority_count = int(
+                    (patient_360[priority_col] == "High priority").sum()
+                )
+            else:
+                high_priority_count = 0
+
+            st.metric("High Priority Patients", format_number(high_priority_count))
+
+        with metric_col_4:
+            cost_col = find_column(patient_360, ["patient_360_total_cost_proxy"])
+
+            if cost_col:
+                total_cost_proxy = patient_360[cost_col].fillna(0).sum()
+            else:
+                total_cost_proxy = 0
+
+            st.metric("Total Cost Proxy", format_number(float(total_cost_proxy)))
+
+        st.divider()
+
+        filter_col_1, filter_col_2, filter_col_3 = st.columns(3)
+
+        filtered_patient_360 = patient_360.copy()
+
+        with filter_col_1:
+            priority_col = find_column(filtered_patient_360, ["care_management_priority"])
+
+            if priority_col:
+                priority_options = sorted(
+                    filtered_patient_360[priority_col]
+                    .dropna()
+                    .astype(str)
+                    .unique()
+                    .tolist()
+                )
+
+                selected_priorities = st.multiselect(
+                    "Care management priority",
+                    priority_options,
+                    default=priority_options,
+                )
+
+                filtered_patient_360 = filtered_patient_360[
+                    filtered_patient_360[priority_col].astype(str).isin(selected_priorities)
+                ]
+
+        with filter_col_2:
+            utilization_segment_col = find_column(filtered_patient_360, ["utilization_segment"])
+
+            if utilization_segment_col:
+                utilization_options = sorted(
+                    filtered_patient_360[utilization_segment_col]
+                    .dropna()
+                    .astype(str)
+                    .unique()
+                    .tolist()
+                )
+
+                selected_utilization_segments = st.multiselect(
+                    "Utilization segment",
+                    utilization_options,
+                    default=utilization_options,
+                )
+
+                filtered_patient_360 = filtered_patient_360[
+                    filtered_patient_360[utilization_segment_col]
+                    .astype(str)
+                    .isin(selected_utilization_segments)
+                ]
+
+        with filter_col_3:
+            cost_segment_col = find_column(filtered_patient_360, ["cost_segment"])
+
+            if cost_segment_col:
+                cost_options = sorted(
+                    filtered_patient_360[cost_segment_col]
+                    .dropna()
+                    .astype(str)
+                    .unique()
+                    .tolist()
+                )
+
+                selected_cost_segments = st.multiselect(
+                    "Cost segment",
+                    cost_options,
+                    default=cost_options,
+                )
+
+                filtered_patient_360 = filtered_patient_360[
+                    filtered_patient_360[cost_segment_col].astype(str).isin(selected_cost_segments)
+                ]
+
+        st.divider()
+
+        chart_col_1, chart_col_2 = st.columns(2)
+
+        with chart_col_1:
+            st.subheader("Care Management Priority")
+
+            priority_col = find_column(filtered_patient_360, ["care_management_priority"])
+
+            if priority_col:
+                priority_counts = (
+                    filtered_patient_360[priority_col]
+                    .fillna("Unknown")
+                    .value_counts()
+                    .reset_index()
+                )
+                priority_counts.columns = ["priority", "patient_count"]
+                st.bar_chart(priority_counts, x="priority", y="patient_count")
+            else:
+                st.info("No care management priority column found.")
+
+        with chart_col_2:
+            st.subheader("Cost Segment")
+
+            cost_segment_col = find_column(filtered_patient_360, ["cost_segment"])
+
+            if cost_segment_col:
+                cost_segment_counts = (
+                    filtered_patient_360[cost_segment_col]
+                    .fillna("Unknown")
+                    .value_counts()
+                    .reset_index()
+                )
+                cost_segment_counts.columns = ["cost_segment", "patient_count"]
+                st.bar_chart(cost_segment_counts, x="cost_segment", y="patient_count")
+            else:
+                st.info("No cost segment column found.")
+
+        st.divider()
+
+        st.subheader("Patient 360 Build Summary")
+
+        if patient_360_report:
+            summary_cols = st.columns(3)
+
+            with summary_cols[0]:
+                st.metric(
+                    "Output Rows",
+                    format_number(patient_360_report.get("output_rows", 0)),
+                )
+
+            with summary_cols[1]:
+                st.metric(
+                    "Output Columns",
+                    format_number(patient_360_report.get("output_columns", 0)),
+                )
+
+            with summary_cols[2]:
+                source_tables = patient_360_report.get("source_tables", {})
+                available_sources = sum(
+                    1 for source in source_tables.values() if source.get("available")
+                )
+                st.metric("Source Tables Used", format_number(available_sources))
+
+            with st.expander("View Patient 360 build report JSON"):
+                st.json(patient_360_report)
+        else:
+            st.info("Patient 360 build report not found yet.")
+
+        st.divider()
+
+        show_dataframe_section("Patient 360 Preview", filtered_patient_360, max_rows=50)
 
 
-def display_condition_page(tables: dict[str, pd.DataFrame]) -> None:
-    """
-    Display condition-focused analytics.
-    """
+# ---------------------------------------------------------------------
+# Real-world public data extension
+# ---------------------------------------------------------------------
 
-    st.header("Condition Summary")
+with real_world_tab:
+    st.header("Real-World Public Data Ingestion Extension")
 
-    df = tables["Condition Summary"]
-    display_table_preview(df, "Condition Summary")
-
-    if df.empty:
-        return
-
-    categorical_columns = get_categorical_columns(df)
-    numeric_columns = get_numeric_columns(df)
-
-    if categorical_columns:
-        st.subheader("Condition Category Distribution")
-
-        selected_category = st.selectbox(
-            "Select condition field",
-            categorical_columns,
-        )
-
-        display_distribution_chart(df, selected_category)
-
-    if numeric_columns:
-        st.subheader("Condition Numeric Feature Distribution")
-
-        selected_metric = st.selectbox(
-            "Select condition metric",
-            numeric_columns,
-        )
-
-        display_distribution_chart(df, selected_metric)
-
-
-def display_medication_page(tables: dict[str, pd.DataFrame]) -> None:
-    """
-    Display medication-focused analytics.
-    """
-
-    st.header("Medication Summary")
-
-    df = tables["Medication Summary"]
-    display_table_preview(df, "Medication Summary")
-
-    if df.empty:
-        return
-
-    categorical_columns = get_categorical_columns(df)
-    numeric_columns = get_numeric_columns(df)
-
-    if categorical_columns:
-        st.subheader("Medication Category Distribution")
-
-        selected_category = st.selectbox(
-            "Select medication field",
-            categorical_columns,
-        )
-
-        display_distribution_chart(df, selected_category)
-
-    if numeric_columns:
-        st.subheader("Medication Numeric Feature Distribution")
-
-        selected_metric = st.selectbox(
-            "Select medication metric",
-            numeric_columns,
-        )
-
-        display_distribution_chart(df, selected_metric)
-
-
-def display_observation_page(tables: dict[str, pd.DataFrame]) -> None:
-    """
-    Display observation-focused analytics.
-    """
-
-    st.header("Observation Summary")
-
-    df = tables["Observation Summary"]
-    display_table_preview(df, "Observation Summary")
-
-    if df.empty:
-        return
-
-    categorical_columns = get_categorical_columns(df)
-    numeric_columns = get_numeric_columns(df)
-
-    if categorical_columns:
-        st.subheader("Observation Category Distribution")
-
-        selected_category = st.selectbox(
-            "Select observation field",
-            categorical_columns,
-        )
-
-        display_distribution_chart(df, selected_category)
-
-    if numeric_columns:
-        st.subheader("Observation Numeric Feature Distribution")
-
-        selected_metric = st.selectbox(
-            "Select observation metric",
-            numeric_columns,
-        )
-
-        display_distribution_chart(df, selected_metric)
-
-
-def display_risk_features_page(tables: dict[str, pd.DataFrame]) -> None:
-    """
-    Display patient risk feature analytics.
-    """
-
-    st.header("Patient Risk Features")
-
-    df = tables["Patient Risk Features"]
-    display_table_preview(df, "Patient Risk Features")
-
-    if df.empty:
-        return
-
-    numeric_columns = get_numeric_columns(df)
-
-    if not numeric_columns:
-        st.info("No numeric risk feature columns available for charting.")
-        return
-
-    selected_metric = st.selectbox(
-        "Select risk feature",
-        numeric_columns,
+    st.write(
+        """
+        This section documents the v1.1 public-data extension. MIMIC-IV Demo
+        and CMS Basic Stand Alone Medicare Claims PUF are intentionally treated
+        as separate public ingestion tracks. They are not joined into the synthetic
+        Patient 360 pipeline because they are not naturally linkable.
+        """
     )
 
-    st.subheader(f"Distribution of {selected_metric}")
-    display_distribution_chart(df, selected_metric)
+    metric_col_1, metric_col_2, metric_col_3 = st.columns(3)
 
-    patient_id_col = find_column(
-        df,
-        ["patient_id", "person_id", "member_id", "beneficiary_id"],
-    )
+    with metric_col_1:
+        mimic_tables = mimic_ingestion_report.get("tables_ingested", [])
+        st.metric("MIMIC Tables Ingested", format_number(len(mimic_tables)))
 
-    if patient_id_col:
-        st.subheader(f"Top Records by {selected_metric}")
+    with metric_col_2:
+        cms_tables = cms_ingestion_report.get("tables_ingested", [])
+        st.metric("CMS PUF Tables Ingested", format_number(len(cms_tables)))
 
-        top_records = (
-            df[[patient_id_col, selected_metric]]
-            .dropna()
-            .sort_values(selected_metric, ascending=False)
-            .head(20)
-            .set_index(patient_id_col)
-        )
+    with metric_col_3:
+        validation_available = bool(real_world_validation_markdown)
+        st.metric("Validation Report Available", "Yes" if validation_available else "No")
 
-        st.bar_chart(top_records)
+    st.divider()
 
-
-def display_data_explorer_page(tables: dict[str, pd.DataFrame]) -> None:
-    """
-    Display a flexible data explorer for any Gold table.
-    """
-
-    st.header("Gold Data Explorer")
-
-    selected_table = st.selectbox(
-        "Select Gold table",
-        list(tables.keys()),
-    )
-
-    df = tables[selected_table]
-
-    display_table_preview(df, selected_table)
-
-    if df.empty:
-        return
-
-    st.subheader("Column Details")
-
-    column_profile = pd.DataFrame(
-        {
-            "column_name": df.columns,
-            "dtype": [str(df[column].dtype) for column in df.columns],
-            "null_count": [int(df[column].isna().sum()) for column in df.columns],
-            "null_percent": [
-                round(float(df[column].isna().mean() * 100), 2)
-                for column in df.columns
-            ],
-            "unique_values": [int(df[column].nunique()) for column in df.columns],
-        }
-    )
-
-    st.dataframe(column_profile, use_container_width=True)
-
-    st.subheader("Explore a Column")
-
-    selected_column = st.selectbox(
-        "Select column",
-        df.columns.tolist(),
-    )
-
-    display_distribution_chart(df, selected_column)
-
-
-def main() -> None:
-    """
-    Run the Streamlit dashboard application.
-    """
-
-    st.title("Healthcare Claims & EHR Lakehouse")
-    st.caption(
-        "Local medallion architecture dashboard built from Gold analytics Parquet tables."
-    )
-
-    tables = load_all_gold_tables()
-
-    page = st.sidebar.radio(
-        "Dashboard Page",
+    mimic_tab, cms_tab, validation_tab = st.tabs(
         [
-            "Overview",
-            "Utilization",
-            "Conditions",
-            "Medications",
-            "Observations",
-            "Patient Risk Features",
-            "Gold Data Explorer",
-        ],
+            "MIMIC-IV Demo",
+            "CMS Claims PUF",
+            "Bronze Validation",
+        ]
     )
 
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("### Data Location")
-    st.sidebar.code(str(GOLD_DIR))
+    with mimic_tab:
+        st.subheader("MIMIC-IV Demo Ingestion Summary")
 
-    if page == "Overview":
-        display_overview_page(tables)
-    elif page == "Utilization":
-        display_utilization_page(tables)
-    elif page == "Conditions":
-        display_condition_page(tables)
-    elif page == "Medications":
-        display_medication_page(tables)
-    elif page == "Observations":
-        display_observation_page(tables)
-    elif page == "Patient Risk Features":
-        display_risk_features_page(tables)
-    elif page == "Gold Data Explorer":
-        display_data_explorer_page(tables)
+        if mimic_ingestion_report:
+            st.json(mimic_ingestion_report)
+        else:
+            show_missing_file_warning(
+                "MIMIC ingestion report",
+                REAL_WORLD_REPORTS_DIR / "mimic_demo_ingestion_report.json",
+            )
 
+        st.subheader("MIMIC-IV Demo Profile Report")
 
-if __name__ == "__main__":
-    main()
+        if mimic_profile_markdown:
+            st.markdown(mimic_profile_markdown)
+        else:
+            show_missing_file_warning(
+                "MIMIC profile report",
+                REAL_WORLD_REPORTS_DIR / "mimic_demo_profile_report.md",
+            )
+
+    with cms_tab:
+        st.subheader("CMS Claims PUF Ingestion Summary")
+
+        if cms_ingestion_report:
+            st.json(cms_ingestion_report)
+        else:
+            show_missing_file_warning(
+                "CMS Claims PUF ingestion report",
+                REAL_WORLD_REPORTS_DIR / "cms_claims_puf_ingestion_report.json",
+            )
+
+        st.subheader("CMS Claims PUF Profile Report")
+
+        if cms_profile_markdown:
+            st.markdown(cms_profile_markdown)
+        else:
+            show_missing_file_warning(
+                "CMS Claims PUF profile report",
+                REAL_WORLD_REPORTS_DIR / "cms_claims_puf_profile_report.md",
+            )
+
+    with validation_tab:
+        st.subheader("Real-World Bronze Validation")
+
+        if real_world_validation_markdown:
+            st.markdown(real_world_validation_markdown)
+        else:
+            show_missing_file_warning(
+                "Real-world Bronze validation report",
+                REAL_WORLD_REPORTS_DIR / "real_world_bronze_validation_report.md",
+            )
